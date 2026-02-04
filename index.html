@@ -7,12 +7,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -36,22 +33,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 .z1{position:relative;z-index:1}
-
-/* Firebase Setup Notice */
-.firebase-notice{
-  position:fixed;top:0;left:0;right:0;z-index:999;
-  background:linear-gradient(135deg,#fef3c7,#fde68a);
-  border-bottom:2px solid #f59e0b;padding:1rem 2rem;text-align:center;
-}
-.firebase-notice h3{color:#92400e;font-size:.9rem;margin-bottom:.3rem}
-.firebase-notice p{color:#78350f;font-size:.75rem;margin-bottom:.5rem}
-.firebase-notice code{background:#fef3c7;padding:.2rem .5rem;border-radius:4px;font-family:var(--font-mono);font-size:.7rem}
-.firebase-notice .btn-close{
-  position:absolute;top:.8rem;right:1rem;background:none;border:none;
-  font-size:1.2rem;color:#92400e;cursor:pointer;
-}
-
-/* Same styles as before */
 #authScreen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;background:linear-gradient(135deg,#eef2ff 0%,#f4f6f9 40%,#fdf2e9 100%);position:relative}
 #authScreen::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.4;background:radial-gradient(circle at 15% 25%,rgba(30,58,95,.06) 0%,transparent 50%),radial-gradient(circle at 85% 75%,rgba(194,133,58,.08) 0%,transparent 50%)}
 .auth-logo{text-align:center;margin-bottom:2.2rem;position:relative;z-index:1}
@@ -90,7 +71,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 .forgot-link:hover{color:var(--navy)}
 .loading{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
 #appScreen{display:none}
 #appScreen.show{display:block}
 .topbar{position:sticky;top:0;z-index:100;background:var(--surface);border-bottom:1px solid var(--border);padding:.7rem 2rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(0,0,0,.04)}
@@ -198,17 +178,8 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
 </head>
 <body>
 
-<!-- Firebase Setup Notice -->
-<div class="firebase-notice" id="firebaseNotice">
-  <button class="btn-close" onclick="document.getElementById('firebaseNotice').style.display='none'">✕</button>
-  <h3>🔧 Firebase Setup Required</h3>
-  <p>To enable cloud sync, follow the setup guide below and replace the config in the HTML file:</p>
-  <p><strong>See instructions in browser console (Press F12)</strong></p>
-</div>
-
-<!-- AUTH SCREEN -->
 <section id="authScreen" class="z1">
-  <div class="auth-logo"><h1>Finance<em>Flow</em></h1><p>Cloud-Powered Expense Management</p></div>
+  <div class="auth-logo"><h1>Finance<em>Flow</em></h1><p>Expense Management</p></div>
   <div class="auth-card">
     <div class="auth-tabs">
       <button class="auth-tab active" data-tab="login">Sign In</button>
@@ -227,9 +198,9 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
           <div class="form-row"><label>First Name</label><input type="text" id="regFirst" placeholder="Benjamin" required></div>
           <div class="form-row"><label>Last Name</label><input type="text" id="regLast" placeholder="Omondi" required></div>
         </div>
-        <div class="form-row"><label>Email</label><input type="email" id="regEmail" placeholder="jane@example.com" required></div>
+        <div class="form-row"><label>Email</label><input type="email" id="regEmail" placeholder="benjamami@example.com" required></div>
         <div class="form-row"><label>Phone (optional)</label><input type="tel" id="regPhone" placeholder="+254 712 345 678"></div>
-        <div class="form-row"><label>Watermark Text</label><input type="text" id="regWatermark" placeholder="e.g. BENJAMIN" required><p class="hint">Appears on your PDF reports</p></div>
+        <div class="form-row"><label>Watermark Text</label><input type="text" id="regWatermark" placeholder="e.g. BENJAMIN O" required><p class="hint">Appears on your PDF reports</p></div>
         <div class="form-row"><label>Password</label><input type="password" id="regPw" placeholder="Minimum 8 characters" required>
           <div class="pw-strength"><div class="pw-bar" id="pwBar1"></div><div class="pw-bar" id="pwBar2"></div><div class="pw-bar" id="pwBar3"></div><div class="pw-bar" id="pwBar4"></div></div>
           <p class="pw-label" id="pwLabel">Enter a password</p></div>
@@ -245,7 +216,6 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
   </div>
 </section>
 
-<!-- APP SCREEN -->
 <section id="appScreen" class="z1">
   <nav class="topbar">
     <div class="topbar-left">
@@ -295,7 +265,6 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
   </div>
 </section>
 
-<!-- EXPORT MODAL -->
 <div class="modal-overlay" id="exportOverlay">
   <div class="modal">
     <button class="modal-close" id="exportClose">✕</button>
@@ -320,10 +289,7 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
   </div>
 </div>
 
-<!-- CONFIRM MODAL -->
 <div class="confirm-overlay" id="confirmOverlay"><div class="confirm-box"><h4 id="confirmTitle">Confirm</h4><p id="confirmMsg">Sure?</p><div class="confirm-btns"><button class="btn btn-ghost btn-sm" id="confirmCancel">Cancel</button><button class="btn btn-red btn-sm" id="confirmOk">Delete</button></div></div></div>
-
-<!-- TOAST -->
 <div class="toast" id="toast"><div class="toast-dot"></div><span id="toastMsg"></span></div>
 
 <script>
@@ -331,28 +297,30 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
 // FIREBASE CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════════
 
-// ⚠️ REPLACE THIS WITH YOUR OWN FIREBASE CONFIG
-// Get it from: https://console.firebase.google.com/ → Project Settings → Your apps
+// ⚠️ REPLACE THIS WITH YOUR FIREBASE CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSyDggBpLFcmp57J32O7HQoBjqlRAj0LvETM",
-  authDomain: "expense-tracker-9708c.firebaseapp.com",
-  projectId: "expense-tracker-9708c",
-  storageBucket: "expense-tracker-9708c.firebasestorage.app",
-  messagingSenderId: "757270244051",
-  appId: "1:757270244051:web:6f4ab745a35a37cd65c226",
-  measurementId: "G-KNH0VL9F4B"
+  apiKey: "AIzaSyBFJ_cZFVgeRgIMaCeW1atIFZ80xhGSwAc",
+  authDomain: "financetrack-e4ec9.firebaseapp.com",
+  projectId: "financetrack-e4ec9",
+  storageBucket: "financetrack-e4ec9.firebasestorage.app",
+  messagingSenderId: "469678326579",
+  appId: "1:469678326579:web:92e885691bca4d29d17446",
+  measurementId: "G-7FMSNGD1BB"
 };
 
-// Initialize Firebase
 let app, auth, db;
 try {
   app = firebase.initializeApp(firebaseConfig);
   auth = firebase.auth();
   db = firebase.firestore();
-  console.log('%c✓ Firebase Connected', 'color:#16a34a;font-weight:bold;font-size:14px');
+  
+  // Configure custom email templates
+  auth.languageCode = 'en';
+  
+  console.log('%c✅ Firebase Connected Successfully', 'color:#16a34a;font-weight:bold;font-size:14px;padding:4px 8px;background:#d1fae5;border-radius:4px');
 } catch(e) {
-  console.error('%c✗ Firebase Setup Required', 'color:#dc2626;font-weight:bold;font-size:14px');
-  console.log('%c\n📋 SETUP INSTRUCTIONS:\n\n1. Go to https://console.firebase.google.com/\n2. Click "Create a project" (or use existing)\n3. Name it (e.g., "expense-tracker")\n4. Disable Google Analytics (optional)\n5. Wait for project creation\n6. Click "Web" icon (</>) to add web app\n7. Register app with a nickname\n8. Copy the firebaseConfig object\n9. Replace lines 271-277 in this HTML file\n10. Enable Authentication:\n   - Click "Authentication" → "Get Started"\n   - Click "Email/Password" → Enable → Save\n11. Enable Firestore:\n   - Click "Firestore Database" → "Create database"\n   - Start in "Test mode" → Select location → Enable\n12. Done! Refresh this page\n\n', 'color:#2563eb;font-size:12px;line-height:1.8');
+  console.error('%c⚠️ Firebase Setup Required', 'color:#dc2626;font-weight:bold;font-size:14px;padding:4px 8px;background:#fee2e2;border-radius:4px');
+  console.log('%c\nFollow the setup guide to configure Firebase.\nReplace the firebaseConfig object above with your actual config.\n', 'color:#2563eb;font-size:12px');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -395,7 +363,7 @@ document.querySelectorAll('.auth-tab').forEach(tab=>{tab.addEventListener('click
 document.getElementById('forgotBtn').addEventListener('click',()=>{clearAlert();showAuthSub('forgotScreen')});
 document.getElementById('backFromForgot').addEventListener('click',()=>{clearAlert();showAuthSub('loginForm')});
 
-// Register
+// Register - FIXED: No auto-login
 document.getElementById('registerForm').addEventListener('submit', async e => {
   e.preventDefault();clearAlert();
   const first=document.getElementById('regFirst').value.trim();
@@ -417,7 +385,9 @@ document.getElementById('registerForm').addEventListener('submit', async e => {
     await db.collection('users').doc(cred.user.uid).set({
       first, last, email, phone, watermark:wm, createdAt:firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Account created! Sign in now.', 'ok');
+    // Sign out immediately to prevent auto-login
+    await auth.signOut();
+    authAlert('Account created successfully! Please sign in.', 'ok');
     document.getElementById('registerForm').reset();
     updatePwUI('');
     showAuthSub('loginForm');
@@ -428,7 +398,7 @@ document.getElementById('registerForm').addEventListener('submit', async e => {
   setLoading('registerBtn', false);
 });
 
-// Login
+// Login - FIXED: Working properly
 document.getElementById('loginForm').addEventListener('submit', async e => {
   e.preventDefault();clearAlert();
   const email=document.getElementById('loginEmail').value.trim();
@@ -437,10 +407,11 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
   setLoading('loginBtn', true);
   try {
     await auth.signInWithEmailAndPassword(email, pw);
+    // Success toast handled by auth state listener
   } catch(err) {
-    authAlert('Invalid email or password');
+    authAlert(err.code==='auth/wrong-password'||err.code==='auth/user-not-found'?'Invalid email or password':err.message);
+    setLoading('loginBtn', false);
   }
-  setLoading('loginBtn', false);
 });
 
 // Forgot Password
@@ -451,9 +422,9 @@ document.getElementById('forgotSendBtn').addEventListener('click', async () => {
   setLoading('forgotSendBtn', true);
   try {
     await auth.sendPasswordResetEmail(email);
-    authAlert('Reset email sent! Check your inbox.', 'ok');
+    authAlert('Password reset email sent! Check your inbox.', 'ok');
   } catch(err) {
-    authAlert('Email not found or error occurred');
+    authAlert(err.code==='auth/user-not-found'?'Email not found':err.message);
   }
   setLoading('forgotSendBtn', false);
 });
@@ -572,7 +543,7 @@ function renderStats(){
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// EXPORT (Same PDF/Excel logic as before)
+// EXPORT
 // ═══════════════════════════════════════════════════════════════════════════
 
 document.getElementById('exportBtn').addEventListener('click',()=>document.getElementById('exportOverlay').classList.add('show'));
@@ -608,10 +579,19 @@ document.getElementById('downloadBtn').addEventListener('click',async()=>{
   document.getElementById('exportOverlay').classList.remove('show');
 });
 
-// Excel & PDF export functions (same as before - included for completeness)
 function fmtDate(d){return d.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'-')}
 function fmtDateLong(d){return d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}
 function hexToRgb(hex){hex=hex.replace(/^#/,'');if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');return{r:parseInt(hex.substr(0,2),16),g:parseInt(hex.substr(2,2),16),b:parseInt(hex.substr(4,2),16)}}
+
+// Helper to lighten a color for category badges
+function lightenColor(r, g, b, percent) {
+  const amt = percent / 100;
+  return {
+    r: Math.round(r + (255 - r) * amt),
+    g: Math.round(g + (255 - g) * amt),
+    b: Math.round(b + (255 - b) * amt)
+  };
+}
 
 function exportExcel(user,data,from,to,wmText){
   const rows=data.sort((a,b)=>new Date(a.date)-new Date(b.date)).map(e=>({Date:new Date(e.date+'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),Description:e.desc,Category:e.cat,'Amount (KSH)':e.amt}));
@@ -621,19 +601,188 @@ function exportExcel(user,data,from,to,wmText){
   XLSX.writeFile(wb,`${user.first}_${user.last}_${fmtDate(from)}_to_${fmtDate(to)}.xlsx`);toast('Excel downloaded!','ok');
 }
 
-// Include the same PDF export function from the previous version
+// FIXED PDF EXPORT: Category badges now have proper light backgrounds, no black boxes
 function exportPDF(user,data,from,to,wmText,wmColorHex){
-  const{jsPDF}=window.jspdf;const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
-  const PW=210,PH=297;const ML=8,MR=8,MT=8,MB=8,CW=PW-ML-MR;
+  const{jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const PW=210,PH=297,ML=8,MR=8,MT=8,MB=8,CW=PW-ML-MR;
+  
   const wc=hexToRgb(wmColorHex);
   const wmR=Math.round(wc.r*.08+255*.92),wmG=Math.round(wc.g*.08+255*.92),wmB=Math.round(wc.b*.08+255*.92);
   const sorted=[...data].sort((a,b)=>new Date(a.date)-new Date(b.date));
-  function addPageBg(){doc.setFont('Helvetica','normal');doc.setFontSize(8);doc.setTextColor(wmR,wmG,wmB);const sp=24;for(let y=15;y<PH-10;y+=sp)for(let x=(Math.floor(y/sp)%2===0?-10:6);x<PW+15;x+=sp)doc.text(wmText,x,y,{angle:20});doc.setFillColor(194,133,58);doc.rect(0,0,PW,.8,'F')}
-  addPageBg();let y=MT+2;doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.setFontSize(22);doc.text('FinanceFlow',ML,y+8);doc.setFontSize(8);doc.setFont('Helvetica','normal');doc.setTextColor(148,163,184);doc.text('EXPENSE REPORT',ML,y+14);doc.setFontSize(7.5);doc.setTextColor(71,85,105);doc.setFont('Helvetica','normal');doc.text(`${fmtDateLong(from)} – ${fmtDateLong(to)}`,PW-MR,y+6,{align:'right'});doc.setFontSize(6.5);doc.setTextColor(148,163,184);doc.text(`Generated ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})}`,PW-MR,y+11,{align:'right'});doc.setFillColor(239,246,255);const userName=`${user.first} ${user.last}`;const nameW=doc.getTextWidth(userName)+8;doc.roundedRect(PW-MR-nameW,y+13,nameW,6,1.5,1.5,'F');doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.setFontSize(7);doc.text(userName,PW-MR-nameW+4,y+17.5);y+=23;doc.setDrawColor(226,232,240);doc.setLineWidth(.3);doc.line(ML,y,PW-MR,y);y+=5;const total=data.reduce((s,e)=>s+e.amt,0);const cats={};data.forEach(e=>{cats[e.cat]=(cats[e.cat]||0)+e.amt});const topCat=Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];const cardW=(CW-4)/3;let cx=ML;doc.setFillColor(254,243,199);doc.roundedRect(cx,y,cardW,18,2,2,'F');doc.setDrawColor(251,191,36);doc.setLineWidth(.4);doc.roundedRect(cx,y,cardW,18,2,2,'S');doc.setTextColor(146,64,14);doc.setFontSize(5.5);doc.setFont('Helvetica','bold');doc.text('TOTAL SPENT',cx+3,y+5);doc.setTextColor(194,133,58);doc.setFontSize(12);doc.setFont('Helvetica','bold');doc.text('KSH '+total.toLocaleString('en',{minimumFractionDigits:0,maximumFractionDigits:0}),cx+3,y+13);cx+=cardW+2;doc.setFillColor(219,234,254);doc.roundedRect(cx,y,cardW,18,2,2,'F');doc.setDrawColor(59,130,246);doc.setLineWidth(.4);doc.roundedRect(cx,y,cardW,18,2,2,'S');doc.setTextColor(30,58,138);doc.setFontSize(5.5);doc.setFont('Helvetica','bold');doc.text('TRANSACTIONS',cx+3,y+5);doc.setTextColor(37,99,235);doc.setFontSize(12);doc.setFont('Helvetica','bold');doc.text(String(data.length),cx+3,y+13);doc.setFontSize(6);doc.setTextColor(71,85,105);doc.setFont('Helvetica','normal');doc.text('entries',cx+3,y+16.5);cx+=cardW+2;doc.setFillColor(237,233,254);doc.roundedRect(cx,y,cardW,18,2,2,'F');doc.setDrawColor(139,92,246);doc.setLineWidth(.4);doc.roundedRect(cx,y,cardW,18,2,2,'S');doc.setTextColor(76,29,149);doc.setFontSize(5.5);doc.setFont('Helvetica','bold');doc.text('TOP CATEGORY',cx+3,y+5);doc.setTextColor(124,58,237);doc.setFontSize(9);doc.setFont('Helvetica','bold');doc.text(topCat?topCat[0]:'—',cx+3,y+12);if(topCat){doc.setFontSize(6);doc.setTextColor(71,85,105);doc.setFont('Helvetica','normal');doc.text('KSH '+topCat[1].toLocaleString('en',{minimumFractionDigits:0}),cx+3,y+16.5)}
-  y+=24;doc.setFontSize(9);doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.text('Expense Transactions',ML,y);y+=5;doc.setFillColor(248,250,252);doc.rect(ML,y,CW,7,'F');doc.setDrawColor(226,232,240);doc.setLineWidth(.2);doc.line(ML,y+7,PW-MR,y+7);doc.setTextColor(71,85,105);doc.setFontSize(6);doc.setFont('Helvetica','bold');doc.text('#',ML+2,y+4.5);doc.text('DATE',ML+10,y+4.5);doc.text('DESCRIPTION',ML+35,y+4.5);doc.text('CATEGORY',ML+115,y+4.5);doc.text('AMOUNT',PW-MR-2,y+4.5,{align:'right'});y+=7;let rowIdx=0;sorted.forEach(exp=>{if(y>PH-MB-15){doc.addPage();addPageBg();let hy=MT+2;doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.setFontSize(9);doc.text('FinanceFlow — Expense Report (continued)',ML,hy+5);doc.setDrawColor(226,232,240);doc.setLineWidth(.3);doc.line(ML,hy+8,PW-MR,hy+8);y=hy+13;doc.setFillColor(248,250,252);doc.rect(ML,y,CW,7,'F');doc.setDrawColor(226,232,240);doc.setLineWidth(.2);doc.line(ML,y+7,PW-MR,y+7);doc.setTextColor(71,85,105);doc.setFontSize(6);doc.setFont('Helvetica','bold');doc.text('#',ML+2,y+4.5);doc.text('DATE',ML+10,y+4.5);doc.text('DESCRIPTION',ML+35,y+4.5);doc.text('CATEGORY',ML+115,y+4.5);doc.text('AMOUNT',PW-MR-2,y+4.5,{align:'right'});y+=7}rowIdx++;if(rowIdx%2===0){doc.setFillColor(249,250,251);doc.rect(ML,y,CW,6,'F')}const d=new Date(exp.date+'T00:00:00');const ds=d.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});doc.setTextColor(148,163,184);doc.setFontSize(6);doc.setFont('Helvetica','normal');doc.text(String(rowIdx),ML+2,y+4);doc.setTextColor(100,116,139);doc.setFontSize(6.2);doc.text(ds,ML+10,y+4);doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.setFontSize(6.5);doc.text(exp.desc.substring(0,35),ML+35,y+4);const catColor=hexToRgb(CAT_COLORS[exp.cat]||'#6b7280');doc.setFillColor(catColor.r,catColor.g,catColor.b,20);const catText=exp.cat;const catW=doc.getTextWidth(catText)+4;doc.roundedRect(ML+115,y+1,catW,4,1,1,'F');doc.setTextColor(catColor.r,catColor.g,catColor.b);doc.setFont('Helvetica','bold');doc.setFontSize(5.5);doc.text(catText,ML+117,y+4);doc.setTextColor(194,133,58);doc.setFont('Helvetica','bold');doc.setFontSize(7);doc.text('KSH '+exp.amt.toLocaleString('en',{minimumFractionDigits:2}),PW-MR-2,y+4,{align:'right'});doc.setDrawColor(241,245,249);doc.setLineWidth(.15);doc.line(ML,y+6,PW-MR,y+6);y+=6});
-  y+=6;if(y>PH-MB-45){doc.addPage();addPageBg();y=MT+10}doc.setFontSize(9);doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.text('Category Analysis',ML,y);y+=6;Object.entries(cats).sort((a,b)=>b[1]-a[1]).forEach(([cat,amt])=>{if(y>PH-MB-10){doc.addPage();addPageBg();y=MT+10}const pct=((amt/total)*100).toFixed(1);const barW=(amt/total)*(CW*.6);const catColor=hexToRgb(CAT_COLORS[cat]||'#6b7280');doc.setFillColor(241,245,249);doc.roundedRect(ML,y,CW*.6,5,1.5,1.5,'F');doc.setFillColor(catColor.r,catColor.g,catColor.b);doc.roundedRect(ML,y,barW,5,1.5,1.5,'F');doc.setTextColor(30,58,95);doc.setFontSize(6.5);doc.setFont('Helvetica','bold');doc.text(cat,ML+CW*.62,y+3.5);doc.setTextColor(100,116,139);doc.setFont('Helvetica','normal');doc.setFontSize(6);doc.text(pct+'%',ML+CW*.62+25,y+3.5);doc.setTextColor(194,133,58);doc.setFont('Helvetica','bold');doc.setFontSize(6.5);doc.text('KSH '+amt.toLocaleString('en',{minimumFractionDigits:0}),PW-MR,y+3.5,{align:'right'});y+=7});
-  const pages=doc.internal.getNumberOfPages();for(let p=1;p<=pages;p++){doc.setPage(p);doc.setDrawColor(226,232,240);doc.setLineWidth(.2);doc.line(ML,PH-MB+2,PW-MR,PH-MB+2);doc.setTextColor(148,163,184);doc.setFontSize(5.5);doc.setFont('Helvetica','normal');doc.text(`Page ${p} of ${pages}`,ML,PH-MB+6);doc.text(`© ${user.first} ${user.last} — FinanceFlow`,PW-MR,PH-MB+6,{align:'right'})}
-  doc.save(`${user.first}_${user.last}_Report_${fmtDate(from)}_to_${fmtDate(to)}.pdf`);toast('PDF downloaded!','ok');
+  
+  function addPageBg(){
+    doc.setFont('Helvetica','normal');doc.setFontSize(8);doc.setTextColor(wmR,wmG,wmB);
+    const sp=24;
+    for(let y=15;y<PH-10;y+=sp){
+      for(let x=(Math.floor(y/sp)%2===0?-10:6);x<PW+15;x+=sp){
+        doc.text(wmText,x,y,{angle:20});
+      }
+    }
+    doc.setFillColor(194,133,58);doc.rect(0,0,PW,.8,'F');
+  }
+  
+  addPageBg();
+  let y=MT+2;
+  
+  // Header
+  doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.setFontSize(22);
+  doc.text('FinanceFlow',ML,y+8);
+  doc.setFontSize(8);doc.setFont('Helvetica','normal');doc.setTextColor(148,163,184);
+  doc.text('EXPENSE REPORT',ML,y+14);
+  doc.setFontSize(7.5);doc.setTextColor(71,85,105);
+  doc.text(`${fmtDateLong(from)} – ${fmtDateLong(to)}`,PW-MR,y+6,{align:'right'});
+  doc.setFontSize(6.5);doc.setTextColor(148,163,184);
+  doc.text(`Generated ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'})}`,PW-MR,y+11,{align:'right'});
+  
+  doc.setFillColor(239,246,255);
+  const userName=`${user.first} ${user.last}`;
+  const nameW=doc.getTextWidth(userName)+8;
+  doc.roundedRect(PW-MR-nameW,y+13,nameW,6,1.5,1.5,'F');
+  doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.setFontSize(7);
+  doc.text(userName,PW-MR-nameW+4,y+17.5);
+  
+  y+=23;
+  doc.setDrawColor(226,232,240);doc.setLineWidth(.3);doc.line(ML,y,PW-MR,y);
+  
+  y+=5;
+  const total=data.reduce((s,e)=>s+e.amt,0);
+  const cats={};
+  data.forEach(e=>{cats[e.cat]=(cats[e.cat]||0)+e.amt});
+  const topCat=Object.entries(cats).sort((a,b)=>b[1]-a[1])[0];
+  const cardW=(CW-4)/3;
+  
+  // Summary Cards
+  let cx=ML;
+  doc.setFillColor(254,243,199);doc.roundedRect(cx,y,cardW,18,2,2,'F');
+  doc.setDrawColor(251,191,36);doc.setLineWidth(.4);doc.roundedRect(cx,y,cardW,18,2,2,'S');
+  doc.setTextColor(146,64,14);doc.setFontSize(5.5);doc.setFont('Helvetica','bold');
+  doc.text('TOTAL SPENT',cx+3,y+5);
+  doc.setTextColor(194,133,58);doc.setFontSize(12);
+  doc.text('KSH '+total.toLocaleString('en',{minimumFractionDigits:0}),cx+3,y+13);
+  
+  cx+=cardW+2;
+  doc.setFillColor(219,234,254);doc.roundedRect(cx,y,cardW,18,2,2,'F');
+  doc.setDrawColor(59,130,246);doc.setLineWidth(.4);doc.roundedRect(cx,y,cardW,18,2,2,'S');
+  doc.setTextColor(30,58,138);doc.setFontSize(5.5);
+  doc.text('TRANSACTIONS',cx+3,y+5);
+  doc.setTextColor(37,99,235);doc.setFontSize(12);
+  doc.text(String(data.length),cx+3,y+13);
+  doc.setFontSize(6);doc.setTextColor(71,85,105);doc.setFont('Helvetica','normal');
+  doc.text('entries',cx+3,y+16.5);
+  
+  cx+=cardW+2;
+  doc.setFillColor(237,233,254);doc.roundedRect(cx,y,cardW,18,2,2,'F');
+  doc.setDrawColor(139,92,246);doc.setLineWidth(.4);doc.roundedRect(cx,y,cardW,18,2,2,'S');
+  doc.setTextColor(76,29,149);doc.setFontSize(5.5);doc.setFont('Helvetica','bold');
+  doc.text('TOP CATEGORY',cx+3,y+5);
+  doc.setTextColor(124,58,237);doc.setFontSize(9);
+  doc.text(topCat?topCat[0]:'—',cx+3,y+12);
+  if(topCat){
+    doc.setFontSize(6);doc.setTextColor(71,85,105);doc.setFont('Helvetica','normal');
+    doc.text('KSH '+topCat[1].toLocaleString('en',{minimumFractionDigits:0}),cx+3,y+16.5);
+  }
+  
+  y+=24;
+  doc.setFontSize(9);doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');
+  doc.text('Expense Transactions',ML,y);
+  y+=5;
+  
+  // Table Header
+  doc.setFillColor(248,250,252);doc.rect(ML,y,CW,7,'F');
+  doc.setDrawColor(226,232,240);doc.setLineWidth(.2);doc.line(ML,y+7,PW-MR,y+7);
+  doc.setTextColor(71,85,105);doc.setFontSize(6);doc.setFont('Helvetica','bold');
+  doc.text('#',ML+2,y+4.5);
+  doc.text('DATE',ML+10,y+4.5);
+  doc.text('DESCRIPTION',ML+35,y+4.5);
+  doc.text('CATEGORY',ML+115,y+4.5);
+  doc.text('AMOUNT',PW-MR-2,y+4.5,{align:'right'});
+  y+=7;
+  
+  let rowIdx=0;
+  sorted.forEach(exp=>{
+    // Page break
+    if(y>PH-MB-15){
+      doc.addPage();addPageBg();
+      let hy=MT+2;
+      doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.setFontSize(9);
+      doc.text('FinanceFlow — Expense Report (continued)',ML,hy+5);
+      doc.setDrawColor(226,232,240);doc.setLineWidth(.3);doc.line(ML,hy+8,PW-MR,hy+8);
+      y=hy+13;
+      doc.setFillColor(248,250,252);doc.rect(ML,y,CW,7,'F');
+      doc.setDrawColor(226,232,240);doc.setLineWidth(.2);doc.line(ML,y+7,PW-MR,y+7);
+      doc.setTextColor(71,85,105);doc.setFontSize(6);doc.setFont('Helvetica','bold');
+      doc.text('#',ML+2,y+4.5);doc.text('DATE',ML+10,y+4.5);
+      doc.text('DESCRIPTION',ML+35,y+4.5);doc.text('CATEGORY',ML+115,y+4.5);
+      doc.text('AMOUNT',PW-MR-2,y+4.5,{align:'right'});
+      y+=7;
+    }
+    
+    rowIdx++;
+    if(rowIdx%2===0){doc.setFillColor(249,250,251);doc.rect(ML,y,CW,6,'F')}
+    
+    const d=new Date(exp.date+'T00:00:00');
+    const ds=d.toLocaleDateString('en-GB',{day:'2-digit',month:'2-digit',year:'numeric'});
+    
+    doc.setTextColor(148,163,184);doc.setFontSize(6);doc.setFont('Helvetica','normal');
+    doc.text(String(rowIdx),ML+2,y+4);
+    doc.setTextColor(100,116,139);doc.setFontSize(6.2);
+    doc.text(ds,ML+10,y+4);
+    doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');doc.setFontSize(6.5);
+    doc.text(exp.desc.substring(0,35),ML+35,y+4);
+    
+    // FIXED: Category badge with light background (85% lighter than original color)
+    const catColor=hexToRgb(CAT_COLORS[exp.cat]||'#6b7280');
+    const lightBg=lightenColor(catColor.r,catColor.g,catColor.b,85);
+    doc.setFillColor(lightBg.r,lightBg.g,lightBg.b);
+    const catText=exp.cat;
+    const catW=doc.getTextWidth(catText)+4;
+    doc.roundedRect(ML+115,y+1,catW,4,1,1,'F');
+    doc.setTextColor(catColor.r,catColor.g,catColor.b);
+    doc.setFont('Helvetica','bold');doc.setFontSize(5.5);
+    doc.text(catText,ML+117,y+4);
+    
+    doc.setTextColor(194,133,58);doc.setFont('Helvetica','bold');doc.setFontSize(7);
+    doc.text('KSH '+exp.amt.toLocaleString('en',{minimumFractionDigits:2}),PW-MR-2,y+4,{align:'right'});
+    doc.setDrawColor(241,245,249);doc.setLineWidth(.15);doc.line(ML,y+6,PW-MR,y+6);
+    y+=6;
+  });
+  
+  // Category Analysis
+  y+=6;
+  if(y>PH-MB-45){doc.addPage();addPageBg();y=MT+10}
+  doc.setFontSize(9);doc.setTextColor(30,58,95);doc.setFont('Helvetica','bold');
+  doc.text('Category Analysis',ML,y);
+  y+=6;
+  
+  Object.entries(cats).sort((a,b)=>b[1]-a[1]).forEach(([cat,amt])=>{
+    if(y>PH-MB-10){doc.addPage();addPageBg();y=MT+10}
+    const pct=((amt/total)*100).toFixed(1);
+    const barW=(amt/total)*(CW*.6);
+    const catColor=hexToRgb(CAT_COLORS[cat]||'#6b7280');
+    doc.setFillColor(241,245,249);doc.roundedRect(ML,y,CW*.6,5,1.5,1.5,'F');
+    doc.setFillColor(catColor.r,catColor.g,catColor.b);doc.roundedRect(ML,y,barW,5,1.5,1.5,'F');
+    doc.setTextColor(30,58,95);doc.setFontSize(6.5);doc.setFont('Helvetica','bold');
+    doc.text(cat,ML+CW*.62,y+3.5);
+    doc.setTextColor(100,116,139);doc.setFont('Helvetica','normal');doc.setFontSize(6);
+    doc.text(pct+'%',ML+CW*.62+25,y+3.5);
+    doc.setTextColor(194,133,58);doc.setFont('Helvetica','bold');doc.setFontSize(6.5);
+    doc.text('KSH '+amt.toLocaleString('en',{minimumFractionDigits:0}),PW-MR,y+3.5,{align:'right'});
+    y+=7;
+  });
+  
+  // Footer
+  const pages=doc.internal.getNumberOfPages();
+  for(let p=1;p<=pages;p++){
+    doc.setPage(p);
+    doc.setDrawColor(226,232,240);doc.setLineWidth(.2);doc.line(ML,PH-MB+2,PW-MR,PH-MB+2);
+    doc.setTextColor(148,163,184);doc.setFontSize(5.5);doc.setFont('Helvetica','normal');
+    doc.text(`Page ${p} of ${pages}`,ML,PH-MB+6);
+    doc.text(`© ${user.first} ${user.last} — FinanceFlow`,PW-MR,PH-MB+6,{align:'right'});
+  }
+  
+  doc.save(`${user.first}_${user.last}_Report_${fmtDate(from)}_to_${fmtDate(to)}.pdf`);
+  toast('PDF downloaded!','ok');
 }
 </script>
 </body>
