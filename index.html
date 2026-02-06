@@ -273,7 +273,7 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
 <!-- AI Insights Modal -->
 <div class="modal-overlay" id="aiInsightsOverlay">
   <div class="modal" style="max-width:900px;max-height:90vh;overflow-y:auto">
-    <button class="modal-close" id="aiInsightsClose">✕</button>
+    <button class="modal-close" onclick="document.getElementById('aiInsightsOverlay').classList.remove('show')">✕</button>
     <h3>🤖 AI-Powered Expense Insights</h3>
     <p>Advanced analysis and predictions for your spending patterns</p>
     
@@ -323,33 +323,11 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
     </div>
   </div>
 </div>
-<div class="modal-overlay" id="exportOverlay">
-  <div class="modal">
-    <button class="modal-close" id="exportClose">✕</button>
-    <h3>Download Report</h3><p>Choose period and format.</p>
-    <div style="margin-bottom:.55rem">
-      <label style="font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.35rem;font-weight:600">Period</label>
-      <div class="period-pills">
-        <button class="period-pill" data-period="week">Weekly</button>
-        <button class="period-pill" data-period="month">Monthly</button>
-        <button class="period-pill" data-period="year">Annual</button>
-        <button class="period-pill" data-period="custom">Custom</button>
-      </div>
-    </div>
-    <div class="custom-range" id="customRange"><label>From</label><input type="date" id="customFrom"><label>To</label><input type="date" id="customTo"></div>
-    <div class="wm-section"><label>Watermark</label><div class="wm-row"><input type="text" id="wmText" placeholder="Watermark…"><input type="color" id="wmColor" value="#c2853a"></div></div>
-    <label style="font-size:.68rem;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:.35rem;font-weight:600">Format</label>
-    <div class="fmt-toggle">
-      <button class="fmt-btn active" data-fmt="pdf">📄 PDF</button>
-      <button class="fmt-btn" data-fmt="xlsx">📊 Excel</button>
-    </div>
-    <div class="modal-actions"><button class="btn btn-navy" id="downloadBtn">⬇ Download</button><button class="btn btn-ghost" id="exportCancelBtn" style="width:auto;flex:0">Cancel</button></div>
-  </div>
-</div>
+
 <!-- Email Input Modal -->
 <div class="modal-overlay" id="emailInputOverlay">
   <div class="modal" style="max-width:400px">
-    <button class="modal-close" id="emailInputClose">✕</button>
+    <button class="modal-close" onclick="document.getElementById('emailInputOverlay').classList.remove('show')">✕</button>
     <h3>📧 Email AI Report</h3>
     <p style="margin-bottom:1.2rem">Send insights to your email</p>
     <div class="form-row">
@@ -358,7 +336,7 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
     </div>
     <div style="display:flex;gap:.5rem;margin-top:1rem">
       <button class="btn btn-navy" id="sendEmailBtn">Send</button>
-      <button class="btn btn-ghost" id="cancelEmailBtn">Cancel</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('emailInputOverlay').classList.remove('show')">Cancel</button>
     </div>
   </div>
 </div>
@@ -857,7 +835,10 @@ function exportPDF(user,data,from,to,wmText,wmColorHex){
   }
   
   doc.save(`${user.first}_${user.last}_Report_${fmtDate(from)}_to_${fmtDate(to)}.pdf`);
-  // ═══════════════════════════════════════════════════════════════════════════
+toast('PDF downloaded!','ok');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // AI INSIGHTS & VISUALIZATION
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -866,27 +847,26 @@ let currentAIPeriod = 'month';
 let currentInsightsText = '';
 let currentChartsData = null;
 
-// Open AI Insights Modal
-document.getElementById('aiInsightsBtn').addEventListener('click', () => {
+// Open AI Insights Modal - FIXED
+document.getElementById('aiInsightsBtn').addEventListener('click', function() {
+  console.log('AI Insights button clicked!');
   document.getElementById('aiInsightsOverlay').classList.add('show');
   generateAIInsights(currentAIPeriod);
 });
 
-document.getElementById('aiInsightsClose').addEventListener('click', () => {
-  document.getElementById('aiInsightsOverlay').classList.remove('show');
-});
-
 // Period selection for AI
-document.querySelectorAll('[data-ai-period]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('[data-ai-period]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentAIPeriod = btn.dataset.aiPeriod;
-    generateAIInsights(currentAIPeriod);
-  });
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('[data-ai-period]');
+  if (!btn) return;
+  
+  document.querySelectorAll('[data-ai-period]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentAIPeriod = btn.dataset.aiPeriod;
+  generateAIInsights(currentAIPeriod);
 });
 
-document.getElementById('refreshInsightsBtn').addEventListener('click', () => {
+// Refresh button
+document.getElementById('refreshInsightsBtn').addEventListener('click', function() {
   generateAIInsights(currentAIPeriod);
 });
 
@@ -946,14 +926,14 @@ async function generateAIInsights(period) {
   // Create charts
   createCharts(categoryData, trendData);
   
-  // Call AI for analysis
-  try {
-    const analysis = await getAIAnalysis(expenses, period, categoryData);
-    currentInsightsText = analysis;
-    document.getElementById('aiInsightsText').textContent = analysis;
-  } catch (err) {
-    document.getElementById('aiInsightsText').textContent = 'AI analysis is currently unavailable. Please try again later.\n\nHowever, you can still view the charts and download the report!';
-  }
+  // Generate AI analysis
+  const total = expenses.reduce((s, e) => s + e.amt, 0);
+  const avgPerTransaction = total / expenses.length;
+  const topCategory = Object.entries(categoryData).sort((a, b) => b[1] - a[1])[0];
+  
+  const analysis = generateBasicAnalysis(expenses, period, categoryData, total, avgPerTransaction, topCategory);
+  currentInsightsText = analysis;
+  document.getElementById('aiInsightsText').textContent = analysis;
   
   document.getElementById('aiInsightsLoading').style.display = 'none';
   document.getElementById('aiInsightsContent').style.display = 'block';
@@ -1042,79 +1022,15 @@ function createCharts(categoryData, trendData) {
 }
 
 // AI Analysis Function
-async function getAIAnalysis(expenses, period, categoryData) {
-  const total = expenses.reduce((s, e) => s + e.amt, 0);
-  const avgPerTransaction = total / expenses.length;
-  const topCategory = Object.entries(categoryData).sort((a, b) => b[1] - a[1])[0];
-  
-  // Prepare expense summary for AI
-  const expenseSummary = {
-    period: period,
-    totalSpent: total,
-    transactionCount: expenses.length,
-    averageTransaction: avgPerTransaction,
-    categories: categoryData,
-    topCategory: topCategory[0],
-    recentExpenses: expenses.slice(0, 10).map(e => ({
-      desc: e.desc,
-      amount: e.amt,
-      category: e.cat,
-      date: e.date
-    }))
-  };
-  
-  const prompt = `You are a financial advisor analyzing expense data. Provide insights and recommendations.
-
-EXPENSE DATA:
-${JSON.stringify(expenseSummary, null, 2)}
-
-Provide a detailed analysis covering:
-1. SPENDING OVERVIEW: Summarize the total spending and patterns
-2. CATEGORY INSIGHTS: Analyze which categories dominate and why
-3. TRENDS: Identify any concerning spending patterns
-4. PREDICTIONS: Forecast next month's spending based on current trends
-5. RECOMMENDATIONS: Give 3-4 actionable tips to optimize spending
-6. SAVINGS OPPORTUNITIES: Suggest areas where they can cut costs
-
-Format your response as clear paragraphs with headers. Be specific with numbers and percentages. Keep it under 400 words but make it insightful and actionable.`;
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: prompt
-        }]
-      })
-    });
-    
-    if (!response.ok) throw new Error('AI service unavailable');
-    
-    const data = await response.json();
-    return data.content[0].text;
-  } catch (err) {
-    // Fallback to basic analysis if AI fails
-    return generateBasicAnalysis(expenses, period, categoryData, total, avgPerTransaction, topCategory);
-  }
-}
-
-// Fallback Basic Analysis
 function generateBasicAnalysis(expenses, period, categoryData, total, avgPerTransaction, topCategory) {
   const periodNames = { week: 'this week', month: 'this month', year: 'this year', all: 'all time' };
   const periodName = periodNames[period] || period;
   
-  let analysis = `SPENDING OVERVIEW\n`;
+  let analysis = `📊 SPENDING OVERVIEW\n`;
   analysis += `You spent KSH ${total.toLocaleString()} ${periodName} across ${expenses.length} transactions. `;
   analysis += `Your average transaction is KSH ${avgPerTransaction.toFixed(2)}.\n\n`;
   
-  analysis += `CATEGORY BREAKDOWN\n`;
+  analysis += `📈 CATEGORY BREAKDOWN\n`;
   analysis += `Your top spending category is ${topCategory[0]} (KSH ${topCategory[1].toLocaleString()}, `;
   analysis += `${((topCategory[1] / total) * 100).toFixed(1)}% of total spending).\n\n`;
   
@@ -1124,21 +1040,32 @@ function generateBasicAnalysis(expenses, period, categoryData, total, avgPerTran
     analysis += `• ${cat}: KSH ${amt.toLocaleString()} (${((amt / total) * 100).toFixed(1)}%)\n`;
   });
   
-  analysis += `\nRECOMMENDATIONS\n`;
-  analysis += `1. Consider setting a budget limit for ${topCategory[0]} as it's your highest expense\n`;
-  analysis += `2. Review your ${sortedCats[1][0]} spending for potential savings\n`;
-  analysis += `3. Track daily expenses to identify small recurring costs\n`;
-  analysis += `4. Set spending alerts for categories exceeding 30% of your budget\n\n`;
+  analysis += `\n💡 SMART RECOMMENDATIONS\n`;
+  analysis += `1. Set a budget limit for ${topCategory[0]} - it's consuming ${((topCategory[1] / total) * 100).toFixed(0)}% of your spending\n`;
+  analysis += `2. Consider reducing ${sortedCats[1][0]} expenses by 10% to save KSH ${(sortedCats[1][1] * 0.1).toFixed(0)} monthly\n`;
+  analysis += `3. Track small daily purchases - they can add up to significant amounts\n`;
+  analysis += `4. Review subscriptions and recurring expenses in ${sortedCats[2][0]}\n\n`;
   
-  analysis += `PREDICTION\n`;
-  const projectedNext = period === 'week' ? total * 4 : period === 'month' ? total : total / 12;
-  analysis += `Based on current trends, you're projected to spend approximately KSH ${projectedNext.toFixed(0)} next month.`;
+  analysis += `🔮 SPENDING PREDICTION\n`;
+  let projectedNext = 0;
+  if (period === 'week') projectedNext = total * 4.33;
+  else if (period === 'month') projectedNext = total;
+  else if (period === 'year') projectedNext = total / 12;
+  else projectedNext = total / (expenses.length / 30);
+  
+  analysis += `Based on your current spending patterns, you're projected to spend approximately KSH ${projectedNext.toFixed(0)} next month.\n\n`;
+  
+  analysis += `💰 SAVINGS OPPORTUNITIES\n`;
+  const potentialSavings = topCategory[1] * 0.15;
+  analysis += `• Reduce ${topCategory[0]} by 15%: Save KSH ${potentialSavings.toFixed(0)}/month\n`;
+  analysis += `• Cut unnecessary expenses: Potential KSH ${(total * 0.08).toFixed(0)}/month\n`;
+  analysis += `• Use budgeting apps: Track and save 10-20% more efficiently\n`;
   
   return analysis;
 }
 
 // Download AI Insights Report
-document.getElementById('downloadInsightsBtn').addEventListener('click', async () => {
+document.getElementById('downloadInsightsBtn').addEventListener('click', async function() {
   if (!currentInsightsText || !currentChartsData) {
     toast('Generate insights first', 'err');
     return;
@@ -1147,7 +1074,6 @@ document.getElementById('downloadInsightsBtn').addEventListener('click', async (
   const userDoc = await db.collection('users').doc(currentUserId).get();
   const user = userDoc.data();
   const period = currentAIPeriod;
-  const expenses = getExpensesByPeriod(period);
   
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -1166,7 +1092,7 @@ document.getElementById('downloadInsightsBtn').addEventListener('click', async (
   doc.setFont('helvetica', 'normal');
   doc.text(`${user.first} ${user.last} • ${new Date().toLocaleDateString('en-GB')}`, margin, 30);
   
-  // Charts (convert to images)
+  // Charts
   let y = 50;
   doc.setTextColor(30, 58, 95);
   doc.setFontSize(14);
@@ -1207,24 +1133,16 @@ document.getElementById('downloadInsightsBtn').addEventListener('click', async (
     y += 5;
   });
   
-  doc.save(`AI_Insights_${user.first}_${user.last}_${period}.pdf`);
+  doc.save(`AI_Insights_${user.first}_${user.last}_${period.toUpperCase()}.pdf`);
   toast('AI Report downloaded!', 'ok');
 });
 
 // Email AI Insights
-document.getElementById('emailInsightsBtn').addEventListener('click', () => {
+document.getElementById('emailInsightsBtn').addEventListener('click', function() {
   document.getElementById('emailInputOverlay').classList.add('show');
 });
 
-document.getElementById('emailInputClose').addEventListener('click', () => {
-  document.getElementById('emailInputOverlay').classList.remove('show');
-});
-
-document.getElementById('cancelEmailBtn').addEventListener('click', () => {
-  document.getElementById('emailInputOverlay').classList.remove('show');
-});
-
-document.getElementById('sendEmailBtn').addEventListener('click', async () => {
+document.getElementById('sendEmailBtn').addEventListener('click', async function() {
   const email = document.getElementById('insightsEmailInput').value.trim();
   if (!email || !email.includes('@')) {
     toast('Enter valid email', 'err');
@@ -1239,19 +1157,16 @@ document.getElementById('sendEmailBtn').addEventListener('click', async () => {
   const userDoc = await db.collection('users').doc(currentUserId).get();
   const user = userDoc.data();
   
-  // Prepare email content
   const subject = `Your AI Expense Insights - ${currentAIPeriod.toUpperCase()}`;
   const body = `Hi ${user.first},\n\nHere are your AI-powered expense insights:\n\n${currentInsightsText}\n\n---\nGenerated by FinanceFlow Expense Tracker\n${new Date().toLocaleString()}`;
   
-  // Open email client
   const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   window.location.href = mailtoLink;
   
   document.getElementById('emailInputOverlay').classList.remove('show');
   toast('Email client opened!', 'ok');
 });
-  toast('PDF downloaded!','ok');
-}
+
 </script>
 </body>
 </html>
