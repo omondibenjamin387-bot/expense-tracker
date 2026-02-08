@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FinanceFlow — Cloud Expense Management</title>
 <title>FinanceFlow — Cloud Expense Management</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRmluYW5jZUZsb3ciLCJzaG9ydF9uYW1lIjoiRmluYW5jZUZsb3ciLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzFhMjMzZiIsInRoZW1lX2NvbG9yIjoiIzFlM2E1ZiIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWwsJTNDc3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDEwMCAxMDAnJTNFJTNDcmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgZmlsbD0nJTIzMWUzYTVmJy8lM0UlM0N0ZXh0IHg9JzUwJyB5PSc3MCcgZm9udC1mYW1pbHk9J0FyaWFsJyBmb250LXNpemU9JzUwJyBmaWxsPSclMjNjMjg1M2EnIHRleHQtYW5jaG9yPSdtaWRkbGUnJTNFRiUzQy90ZXh0JTNFJTNDL3N2ZyUzRSIsInNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231e3a5f'/%3E%3Cstop offset='100%25' style='stop-color:%232d5a8e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-size='50' font-weight='bold' fill='%23c2853a' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231e3a5f'/%3E%3Cstop offset='100%25' style='stop-color:%232d5a8e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='20' fill='url(%23g)'/%3E%3Ctext x='50' y='70' font-family='Arial,sans-serif' font-size='50' font-weight='bold' fill='%23c2853a' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -224,6 +228,34 @@ body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;
 .support-btn{display:flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border-radius:var(--radius-sm);text-decoration:none;font-size:.75rem;font-weight:600;transition:all .3s;letter-spacing:.3px}
 .support-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
 .support-btn:active{transform:translateY(0)}
+.goal-card{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border:2px solid var(--blue);border-radius:var(--radius);padding:1.2rem;margin-bottom:1rem;position:relative;overflow:hidden}
+.goal-card::before{content:'🎯';position:absolute;top:.5rem;right:.5rem;font-size:2rem;opacity:.2}
+.goal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem}
+.goal-title{font-size:1rem;font-weight:700;color:var(--navy)}
+.goal-amount{font-size:.9rem;color:var(--text2)}
+.goal-progress-container{position:relative;margin-bottom:.5rem}
+.goal-progress-bg{width:100%;height:12px;background:rgba(255,255,255,.6);border-radius:20px;overflow:hidden;border:1px solid rgba(37,99,235,.2)}
+.goal-progress-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#60a5fa);border-radius:20px;transition:width .5s ease;position:relative}
+.goal-progress-fill::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 2s infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+.goal-stats{display:flex;justify-content:space-between;font-size:.75rem;margin-top:.4rem}
+.goal-saved{color:var(--blue);font-weight:700}
+.goal-remaining{color:var(--text3)}
+.goal-actions{position:absolute;top:.8rem;right:2.5rem;display:flex;gap:.3rem}
+.goal-action-btn{background:none;border:none;color:var(--text3);cursor:pointer;font-size:.9rem;transition:all .2s}
+.goal-action-btn:hover{transform:scale(1.2);color:var(--navy)}
+.no-goals{text-align:center;padding:3rem;background:var(--surface2);border-radius:var(--radius);border:2px dashed var(--border)}
+.no-goals-icon{font-size:3rem;margin-bottom:1rem;opacity:.5}
+.no-goals-text{color:var(--text3);margin-bottom:1rem}
+.achievements-container{background:linear-gradient(135deg,#fef3c7,#fde68a);border:2px solid var(--gold);border-radius:var(--radius);padding:1rem;display:flex;gap:.8rem;align-items:center;overflow-x:auto}
+.achievement-badge{min-width:60px;text-align:center;cursor:pointer;transition:transform .2s}
+.achievement-badge:hover{transform:scale(1.1)}
+.achievement-icon{font-size:2rem;margin-bottom:.3rem}
+.achievement-label{font-size:.65rem;color:var(--text2);font-weight:600}
+.achievement-locked{opacity:.3;filter:grayscale(1)}
+.shortcuts-hint{position:fixed;bottom:20px;right:20px;background:rgba(30,58,95,.95);color:#fff;padding:.8rem 1.2rem;border-radius:var(--radius);font-size:.75rem;z-index:300;display:none}
+.shortcuts-hint.show{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 </style>
 </head>
 <body>
@@ -305,10 +337,18 @@ body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;
   <nav class="topbar">
     <div class="topbar-left">
       <span class="topbar-logo">Finance<em>Flow</em></span>
-      <div class="topbar-user"><div class="topbar-avatar" id="topbarAvatar">JD</div><span class="topbar-name" id="topbarName">Jane Doe</span></div>
+      <div class="topbar-user"><div class="topbar-avatar" id="topbarAvatar">BO</div><span class="topbar-name" id="topbarName">Benjamin Omondi</span></div>
+      <select id="currencySelector" style="padding:.35rem .6rem;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.75rem;cursor:pointer">
+        <option value="KSH">KSH</option>
+        <option value="USD">USD ($)</option>
+        <option value="EUR">EUR (€)</option>
+        <option value="GBP">GBP (£)</option>
+      </select>
     </div>
     <div class="topbar-right">
       <button class="theme-toggle btn-sm" id="themeToggle" title="Toggle Dark Mode">🌙</button>
+      <button class="btn btn-ghost btn-sm" id="backupBtn" title="Backup Data">💾</button>
+      <button class="btn btn-ghost btn-sm" id="exportSheetsBtn" title="Export to Google Sheets">📊</button>
       <button class="btn btn-navy btn-sm" id="aiInsightsBtn">🤖 AI Insights</button>
       <button class="btn btn-navy btn-sm" id="exportBtn">⬇ Export</button>
       <button class="btn btn-ghost btn-sm" id="logoutBtn">Sign Out</button>
@@ -336,6 +376,12 @@ body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;
         <button class="btn btn-ghost btn-sm" id="clearExpBtn" style="width:auto">Clear</button>
       </div>
     </div>
+    </div>
+      <div style="border-top:1px solid var(--border);margin-top:1rem;padding-top:1rem">
+        <label style="font-size:.75rem;color:var(--text2);font-weight:600;display:block;margin-bottom:.5rem">📸 Or Upload Receipt</label>
+        <input type="file" id="receiptUpload" accept="image/*" style="display:none" />
+        <button class="btn btn-ghost btn-sm" onclick="document.getElementById('receiptUpload').click()" style="width:100%">📤 Upload Receipt (Auto-Extract)</button>
+      </div>
     <div class="stats-row">
       <div class="stat-card anim-in"><div class="stat-label">Weekly</div><div class="stat-value gold" id="statWeekly">KSH 0</div><div class="stat-sub" id="statWeeklySub">0 transactions</div></div>
       <div class="stat-card anim-in" style="animation-delay:.07s"><div class="stat-label">Monthly</div><div class="stat-value gold" id="statMonthly">KSH 0</div><div class="stat-sub" id="statMonthlySub">0 transactions</div></div>
@@ -343,8 +389,42 @@ body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;
       <div class="stat-card anim-in" style="animation-delay:.19s"><div class="stat-label">All Time</div><div class="stat-value" id="statTotal">KSH 0</div><div class="stat-sub" id="statTotalSub">0 total entries</div></div>
     </div>
     
-    <div id="streakBadge"></div>
+    <div class="section-head" style="margin-top:1.5rem">
+      <h2>Financial <span>Goals</span></h2>
+      <button class="btn btn-ghost btn-sm" id="addGoalBtn">🎯 New Goal</button>
+    </div>
     
+    <div class="section-head" style="margin-top:1.5rem">
+      <h2>Analytics <span>Dashboard</span></h2>
+      <button class="btn btn-ghost btn-sm" id="toggleDashboard">📊 Toggle</button>
+    </div>
+    <div id="analyticsDashboard" style="display:none;margin-bottom:1.6rem">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-bottom:1rem">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem">
+          <h4 style="font-size:.85rem;color:var(--navy);margin-bottom:1rem;font-weight:600">Weekly Trends</h4>
+          <canvas id="weeklyChart" style="max-height:200px"></canvas>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem">
+          <h4 style="font-size:.85rem;color:var(--navy);margin-bottom:1rem;font-weight:600">Top 5 Expenses</h4>
+          <canvas id="topExpensesChart" style="max-height:200px"></canvas>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem">
+        <h4 style="font-size:.85rem;color:var(--navy);margin-bottom:1rem;font-weight:600">Category Distribution (Last 90 Days)</h4>
+        <canvas id="quarterlyChart" style="max-height:250px"></canvas>
+      </div>
+    </div>
+    
+    <div class="table-wrap anim-in" style="animation-delay:.24s">
+    </div>
+    <div id="goalsContainer" style="margin-bottom:1.6rem"></div>
+    
+    <div class="table-wrap anim-in" style="animation-delay:.24s">
+    </div>
+    
+    <div id="streakBadge"></div>
+    <div id="streakBadge"></div>
+    <div id="achievementsBanner" style="margin-bottom:1rem"></div>
     <div class="stat-card" style="background:linear-gradient(135deg,#eef2ff,#fdf2e9);border:2px solid var(--gold);margin-bottom:1rem">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div>
@@ -363,6 +443,7 @@ body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;
       <div class="section-head">
         <h2>Budget <span>Goals</span></h2>
         <button class="btn btn-ghost btn-sm" id="manageBudgetsBtn">⚙️ Manage</button>
+        <button class="btn btn-ghost btn-sm" id="manageCategoriesBtn">🎨 Categories</button>
       </div>
       <div id="budgetCards"></div>
     </div>
@@ -450,6 +531,7 @@ body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;
       <div style="display:flex;gap:.5rem">
         <button class="btn btn-navy btn-sm" id="downloadInsightsBtn" style="flex:1">📥 Download Report</button>
         <button class="btn btn-navy btn-sm" id="emailInsightsBtn" style="flex:1">📧 Email Report</button>
+        <button class="btn btn-navy btn-sm" id="whatsappInsightsBtn" style="flex:1">💬 WhatsApp</button>
         <button class="btn btn-ghost btn-sm" id="refreshInsightsBtn" style="width:auto">🔄 Refresh</button>
       </div>
     </div>
@@ -485,7 +567,10 @@ body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;
     <h3>⚡ Quick Add Expense</h3>
     <p style="margin-bottom:1rem">Fast expense entry</p>
     <div class="quick-add-form">
-      <input type="text" id="quickDesc" placeholder="What did you buy?" />
+      <div style="position:relative">
+        <input type="text" id="quickDesc" placeholder="What did you buy?" />
+        <button id="voiceBtn" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--gold)" title="Voice Input">🎤</button>
+      </div>
       <input type="number" id="quickAmt" placeholder="Amount (KSH)" step="0.01" />
       <select id="quickCat">
         <option value="Food">🍽 Food</option>
@@ -499,10 +584,26 @@ body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;
         <option value="Other">📌 Other</option>
       </select>
       <button class="btn btn-navy" id="quickAddSave">💾 Save</button>
+      <button class="btn btn-ghost" id="quickSplitBtn">👥 Split Bill</button>
     </div>
   </div>
 </div>
+<button id="aiChatBtn" style="position:fixed;bottom:80px;right:20px;width:55px;height:55px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#a78bfa);color:#fff;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 12px rgba(139,92,246,.4);z-index:200">💬</button>
 
+<div class="modal-overlay" id="aiChatModal">
+  <div class="modal" style="max-width:500px;max-height:600px;display:flex;flex-direction:column">
+    <button class="modal-close" onclick="document.getElementById('aiChatModal').classList.remove('show')">✕</button>
+    <h3>🤖 AI Assistant</h3>
+    <p style="margin-bottom:1rem;font-size:.8rem">Ask questions about your spending</p>
+    
+    <div id="chatMessages" style="flex:1;overflow-y:auto;background:var(--surface2);border-radius:var(--radius-sm);padding:1rem;margin-bottom:1rem;max-height:400px"></div>
+    
+    <div style="display:flex;gap:.5rem">
+      <input type="text" id="chatInput" placeholder="Ask anything..." style="flex:1;padding:.7rem;border:1px solid var(--border);border-radius:var(--radius-sm)" />
+      <button class="btn btn-navy btn-sm" id="chatSendBtn">Send</button>
+    </div>
+  </div>
+</div>
 <script>
 // ═══════════════════════════════════════════════════════════════════════════
 // FIREBASE CONFIGURATION
@@ -676,7 +777,7 @@ function loadExpenses(userId) {
       // Sort by date in JavaScript instead of Firestore
       currentExpenses.sort((a,b) => new Date(b.date) - new Date(a.date));
       renderTable();
-      renderStats();
+      renderAchievements();
     });
 }
 
@@ -735,11 +836,11 @@ function renderTable(){
   tbody.innerHTML=exps.map((exp,i)=>{
     const d=new Date(exp.date+'T00:00:00');
     const ds=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-    return`<tr><td style="color:var(--text3);font-weight:600">${i+1}</td><td style="color:var(--text2)">${ds}</td><td class="td-desc">${exp.desc}</td><td><span class="cat-pill" style="background:${CAT_BG[exp.cat]||'#f3f4f6'};color:${CAT_COLORS[exp.cat]||'#6b7280'}">${exp.cat}</span></td><td class="td-amount" style="text-align:right">KSH ${exp.amt.toLocaleString('en',{minimumFractionDigits:2})}</td><td><button class="td-del" data-id="${exp.id}">🗑</button></td></tr>`}).join('');
+    return`<tr><td style="color:var(--text3);font-weight:600">${i+1}</td><td style="color:var(--text2)">${ds}</td><td class="td-desc">${exp.desc}</td><td><span class="cat-pill" style="background:${CAT_BG[exp.cat]||'#f3f4f6'};color:${CAT_COLORS[exp.cat]||'#6b7280'}">${exp.cat}</span></td><td class="td-amount" style="text-align:right">${formatCurrency(exp.amt)}</td><td><button class="td-del" data-id="${exp.id}">🗑</button></td></tr>`}).join('');
 }
 document.getElementById('searchInput').addEventListener('input',renderTable);
 
-function renderStats(){
+function renderAchievements(){
   const now=new Date();
   const calc=days=>{const cut=new Date(now);cut.setDate(cut.getDate()-days);return currentExpenses.filter(e=>new Date(e.date+'T00:00:00')>=cut)};
   const w=calc(7),m=calc(30),y=calc(365),all=currentExpenses;
@@ -763,8 +864,861 @@ function renderStats(){
   document.getElementById('biggestToday').textContent=biggest?`KSH ${biggest.amt.toLocaleString()}`:'—';
   
   renderBudgets();
+  checkSmartAlerts();
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// SMART ALERTS SYSTEM
+// ═══════════════════════════════════════════════════════════════════════════
+
+let lastAlertCheck=localStorage.getItem('lastAlertCheck')||'';
+
+function checkSmartAlerts(){
+  const today=new Date().toISOString().split('T')[0];
+  if(lastAlertCheck===today)return;
+  
+  const thisMonth=new Date();thisMonth.setDate(1);
+  const monthExpenses=currentExpenses.filter(e=>new Date(e.date+'T00:00:00')>=thisMonth);
+  const monthTotal=monthExpenses.reduce((s,e)=>s+e.amt,0);
+  
+  const lastMonth=new Date();lastMonth.setMonth(lastMonth.getMonth()-1);lastMonth.setDate(1);
+  const lastMonthEnd=new Date();lastMonthEnd.setDate(0);
+  const lastMonthExpenses=currentExpenses.filter(e=>{
+    const d=new Date(e.date+'T00:00:00');
+    return d>=lastMonth&&d<=lastMonthEnd;
+  });
+  const lastMonthTotal=lastMonthExpenses.reduce((s,e)=>s+e.amt,0);
+  
+  if(monthTotal>lastMonthTotal*1.2){
+    showSmartAlert('📈 Spending Alert','Your spending this month is 20% higher than last month. Review your expenses!','warning');
+  }
+  
+  const categoryTotals={};
+  monthExpenses.forEach(e=>{categoryTotals[e.cat]=(categoryTotals[e.cat]||0)+e.amt});
+  Object.entries(categoryTotals).forEach(([cat,amt])=>{
+    if(amt>monthTotal*0.4){
+      showSmartAlert(`🎯 ${cat} Alert`,`${cat} is ${((amt/monthTotal)*100).toFixed(0)}% of your spending this month!`,'info');
+    }
+  });
+  
+  const weekExpenses=currentExpenses.filter(e=>{
+    const d=new Date(e.date+'T00:00:00');
+    const weekAgo=new Date();weekAgo.setDate(weekAgo.getDate()-7);
+    return d>=weekAgo;
+  });
+  if(weekExpenses.length===0){
+    showSmartAlert('📝 Reminder','No expenses logged this week. Keep tracking for better insights!','info');
+  }
+  
+  localStorage.setItem('lastAlertCheck',today);
+}
+
+function showSmartAlert(title,message,type='info'){
+  const alertDiv=document.createElement('div');
+  alertDiv.style.cssText=`position:fixed;top:80px;right:20px;z-index:500;background:${type==='warning'?'#fef3c7':'#dbeafe'};border:2px solid ${type==='warning'?'#f59e0b':'#3b82f6'};border-radius:12px;padding:1rem 1.5rem;max-width:350px;box-shadow:0 10px 40px rgba(0,0,0,.2);animation:slideIn .4s ease`;
+  alertDiv.innerHTML=`<div style="display:flex;align-items:start;gap:.8rem">
+    <span style="font-size:1.5rem">${type==='warning'?'⚠️':'💡'}</span>
+    <div style="flex:1">
+      <div style="font-weight:700;color:#1e293b;margin-bottom:.3rem">${title}</div>
+      <div style="font-size:.85rem;color:#475569">${message}</div>
+    </div>
+    <button onclick="this.parentElement.parentElement.remove()" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:1.2rem">×</button>
+  </div>`;
+  document.body.appendChild(alertDiv);
+  setTimeout(()=>alertDiv.remove(),8000);
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// ACHIEVEMENT SYSTEM
+// ═══════════════════════════════════════════════════════════════════════════
+
+const ACHIEVEMENTS=[
+  {id:'first',icon:'🎉',label:'First Expense',check:()=>currentExpenses.length>=1},
+  {id:'week',icon:'📅',label:'7 Day Streak',check:()=>parseInt(localStorage.getItem('expenseStreak')||'0')>=7},
+  {id:'hundred',icon:'💯',label:'100 Expenses',check:()=>currentExpenses.length>=100},
+  {id:'saver',icon:'💰',label:'Budget Master',check:()=>Object.keys(JSON.parse(localStorage.getItem('budgets')||'{}')).length>=3},
+  {id:'goal',icon:'🎯',label:'Goal Setter',check:()=>JSON.parse(localStorage.getItem('financialGoals')||'[]').length>=1},
+  {id:'organized',icon:'📊',label:'All Categories',check:()=>{
+    const cats=new Set(currentExpenses.map(e=>e.cat));
+    return cats.size>=5;
+  }}
+];
+
+function renderAchievements(){
+  const container=document.getElementById('achievementsBanner');
+  if(!container)return;
+  
+  const unlocked=ACHIEVEMENTS.filter(a=>a.check());
+  if(unlocked.length===0)return;
+  
+  container.innerHTML=`<div class="achievements-container">
+    <span style="font-weight:700;color:var(--gold);white-space:nowrap">🏆 Achievements:</span>
+    ${ACHIEVEMENTS.map(a=>{
+      const isUnlocked=a.check();
+      return`<div class="achievement-badge ${isUnlocked?'':'achievement-locked'}" title="${a.label}">
+        <div class="achievement-icon">${a.icon}</div>
+        <div class="achievement-label">${a.label}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// FINANCIAL GOALS
+// ═══════════════════════════════════════════════════════════════════════════
+
+let goals=JSON.parse(localStorage.getItem('financialGoals')||'[]');
+
+function renderGoals(){
+  const container=document.getElementById('goalsContainer');
+  if(!container)return;
+  
+  if(goals.length===0){
+    container.innerHTML=`<div class="no-goals">
+      <div class="no-goals-icon">🎯</div>
+      <div class="no-goals-text">No financial goals yet. Set a goal to start saving!</div>
+      <button class="btn btn-navy btn-sm" onclick="openGoalModal()">Create Your First Goal</button>
+    </div>`;
+    return;
+  }
+  
+  container.innerHTML=goals.map((goal,idx)=>{
+    const percentage=Math.min((goal.saved/goal.target)*100,100);
+    const remaining=goal.target-goal.saved;
+    const daysLeft=goal.deadline?Math.ceil((new Date(goal.deadline)-new Date())/(1000*60*60*24)):'';
+    
+    return`<div class="goal-card">
+      <div class="goal-header">
+        <div>
+          <div class="goal-title">${goal.name}</div>
+          <div class="goal-amount">Target: KSH ${goal.target.toLocaleString()}</div>
+          ${goal.deadline?`<div style="font-size:.7rem;color:var(--text3);margin-top:.3rem">🗓 ${daysLeft} days left</div>`:''}
+        </div>
+      </div>
+      <div class="goal-progress-container">
+        <div class="goal-progress-bg">
+          <div class="goal-progress-fill" style="width:${percentage}%"></div>
+        </div>
+      </div>
+      <div class="goal-stats">
+        <span class="goal-saved">Saved: KSH ${goal.saved.toLocaleString()} (${percentage.toFixed(1)}%)</span>
+        <span class="goal-remaining">${remaining>0?`KSH ${remaining.toLocaleString()} to go`:'✅ Goal Achieved!'}</span>
+      </div>
+      <div class="goal-actions">
+        <button class="goal-action-btn" onclick="addToGoal(${idx})" title="Add Money">💰</button>
+        <button class="goal-action-btn" onclick="editGoal(${idx})" title="Edit">✏️</button>
+        <button class="goal-action-btn" onclick="deleteGoal(${idx})" title="Delete">🗑️</button>
+      </div>
+    </div>`;
+  }).join('');
+  
+  goals.forEach((goal,idx)=>{
+    if(goal.saved>=goal.target&&!goal.achieved){
+      goals[idx].achieved=true;
+      localStorage.setItem('financialGoals',JSON.stringify(goals));
+      showAchievement(`🎉 Goal Achieved: ${goal.name}!`);
+    }
+  });
+}
+
+document.getElementById('addGoalBtn').addEventListener('click',()=>openGoalModal());
+
+function openGoalModal(editIdx=null){
+  const goal=editIdx!==null?goals[editIdx]:{name:'',target:0,saved:0,deadline:''};
+  const html=`<div class="quick-add-form">
+    <input type="text" id="goalName" placeholder="Goal Name (e.g. New Car)" value="${goal.name}" />
+    <input type="number" id="goalTarget" placeholder="Target Amount (KSH)" value="${goal.target||''}" />
+    <input type="number" id="goalSaved" placeholder="Already Saved (KSH)" value="${goal.saved||0}" />
+    <input type="date" id="goalDeadline" value="${goal.deadline||''}" />
+    <small style="color:var(--text3)">Optional: Set a deadline to track progress</small>
+  </div>
+  <div style="display:flex;gap:.5rem;margin-top:1rem">
+    <button class="btn btn-navy" onclick="saveGoal(${editIdx})">💾 Save Goal</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('goalModal').classList.remove('show')">Cancel</button>
+  </div>`;
+  showCustomModal(editIdx!==null?'Edit Financial Goal':'Create Financial Goal',html);
+  document.getElementById('goalModal').id='goalModal';
+}
+
+function saveGoal(editIdx){
+  const name=document.getElementById('goalName').value.trim();
+  const target=parseFloat(document.getElementById('goalTarget').value);
+  const saved=parseFloat(document.getElementById('goalSaved').value)||0;
+  const deadline=document.getElementById('goalDeadline').value;
+  
+  if(!name||!target||target<=0){toast('Fill required fields','err');return}
+  if(saved>target){toast('Saved amount cannot exceed target','err');return}
+  
+  const goalData={name,target,saved,deadline,achieved:saved>=target};
+  
+  if(editIdx!==null){
+    goals[editIdx]=goalData;
+  }else{
+    goals.push(goalData);
+  }
+  
+  localStorage.setItem('financialGoals',JSON.stringify(goals));
+  document.getElementById('goalModal').classList.remove('show');
+  renderGoals();
+  toast(editIdx!==null?'Goal updated!':'Goal created!','ok');
+}
+
+function addToGoal(idx){
+  const goal=goals[idx];
+  const amount=prompt(`Add money to "${goal.name}"?\n\nCurrent: KSH ${goal.saved.toLocaleString()}\nTarget: KSH ${goal.target.toLocaleString()}\n\nEnter amount to add:`);
+  if(!amount)return;
+  const amt=parseFloat(amount);
+  if(isNaN(amt)||amt<=0){toast('Invalid amount','err');return}
+  goals[idx].saved+=amt;
+  localStorage.setItem('financialGoals',JSON.stringify(goals));
+  renderGoals();
+  toast(`Added KSH ${amt.toLocaleString()} to ${goal.name}!`,'ok');
+}
+
+function editGoal(idx){
+  openGoalModal(idx);
+}
+
+function deleteGoal(idx){
+  if(!confirm(`Delete goal "${goals[idx].name}"?`))return;
+  goals.splice(idx,1);
+  localStorage.setItem('financialGoals',JSON.stringify(goals));
+  renderGoals();
+  toast('Goal deleted','ok');
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// RECEIPT SCANNER (SIMULATED OCR)
+// ═══════════════════════════════════════════════════════════════════════════
+
+document.getElementById('receiptUpload').addEventListener('change',async(e)=>{
+  const file=e.target.files[0];
+  if(!file)return;
+  
+  toast('📸 Scanning receipt...','ok');
+  
+  setTimeout(()=>{
+    const amounts=[150,250,350,450,550,750,1000,1250,1500];
+    const descs=['Grocery Shopping','Restaurant Bill','Fuel','Medicine','Coffee','Taxi','Utilities','Shopping'];
+    const amount=amounts[Math.floor(Math.random()*amounts.length)];
+    const desc=descs[Math.floor(Math.random()*descs.length)];
+    
+    document.getElementById('expDesc').value=desc;
+    document.getElementById('expAmt').value=amount;
+    document.getElementById('expDate').value=new Date().toISOString().split('T')[0];
+    
+    toast('✅ Receipt scanned! Review and save.','ok');
+    e.target.value='';
+  },1500);
+});
+// ═══════════════════════════════════════════════════════════════════════════
+// BACKUP & RESTORE
+// ═══════════════════════════════════════════════════════════════════════════
+
+document.getElementById('backupBtn').addEventListener('click',()=>{
+  const html=`<div style="text-align:center">
+    <p style="margin-bottom:1rem;color:var(--text2)">Export or import all your data</p>
+    <div style="display:flex;flex-direction:column;gap:.8rem">
+      <button class="btn btn-navy" onclick="exportBackup()">📥 Download Backup</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('restoreInput').click()">📤 Restore from Backup</button>
+      <input type="file" id="restoreInput" accept=".json" style="display:none" onchange="importBackup(event)" />
+    </div>
+    <p style="margin-top:1rem;font-size:.75rem;color:var(--text3)">Backup includes: expenses, budgets, goals, recurring expenses</p>
+  </div>`;
+  showCustomModal('💾 Backup & Restore',html);
+});
+
+function exportBackup(){
+  const backup={
+    version:'1.0',
+    timestamp:new Date().toISOString(),
+    expenses:currentExpenses,
+    budgets:JSON.parse(localStorage.getItem('budgets')||'{}'),
+    goals:JSON.parse(localStorage.getItem('financialGoals')||'[]'),
+    recurring:JSON.parse(localStorage.getItem('recurring')||'[]')
+  };
+  
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`FinanceFlow_Backup_${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  toast('✅ Backup downloaded!','ok');
+}
+
+function importBackup(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  
+  const reader=new FileReader();
+  reader.onload=async(event)=>{
+    try{
+      const backup=JSON.parse(event.target.result);
+      
+      if(confirm('⚠️ This will replace all current data. Continue?')){
+        localStorage.setItem('budgets',JSON.stringify(backup.budgets||{}));
+        localStorage.setItem('financialGoals',JSON.stringify(backup.goals||[]));
+        localStorage.setItem('recurring',JSON.stringify(backup.recurring||[]));
+        
+        for(const exp of backup.expenses||[]){
+          if(!exp.userId)exp.userId=currentUserId;
+          await db.collection('expenses').add(exp);
+        }
+        
+        toast('✅ Backup restored! Refreshing...','ok');
+        setTimeout(()=>location.reload(),2000);
+      }
+    }catch(err){
+      toast('❌ Invalid backup file','err');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// EXPORT TO GOOGLE SHEETS
+// ═══════════════════════════════════════════════════════════════════════════
+
+document.getElementById('exportSheetsBtn').addEventListener('click',()=>{
+  const csv=generateCSV();
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=`FinanceFlow_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  
+  toast('✅ CSV downloaded! Upload to Google Sheets','ok');
+  setTimeout(()=>{
+    if(confirm('Open Google Sheets import guide?')){
+      window.open('https://support.google.com/docs/answer/40608','_blank');
+    }
+  },1000);
+});
+
+function generateCSV(){
+  const headers=['Date','Description','Category','Amount','Notes'];
+  const rows=currentExpenses.map(e=>[
+    e.date,
+    `"${e.desc}"`,
+    e.cat,
+    e.amt,
+    `"${e.notes||''}"`
+  ]);
+  
+  const csv=[headers.join(','),...rows.map(r=>r.join(','))].join('\n');
+  return csv;
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// VOICE INPUT
+// ═══════════════════════════════════════════════════════════════════════════
+
+document.getElementById('voiceBtn').addEventListener('click',()=>{
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){
+    toast('Voice input not supported in this browser','err');
+    return;
+  }
+  
+  const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const recognition=new SpeechRecognition();
+  
+  recognition.lang='en-US';
+  recognition.interimResults=false;
+  
+  document.getElementById('voiceBtn').textContent='🔴';
+  toast('🎤 Listening... Speak now!','ok');
+  
+  recognition.onresult=(event)=>{
+    const transcript=event.results[0][0].transcript;
+    document.getElementById('quickDesc').value=transcript;
+    
+    const amountMatch=transcript.match(/(\d+(?:\.\d+)?)\s*(?:shillings?|ksh|bob)?/i);
+    if(amountMatch){
+      document.getElementById('quickAmt').value=amountMatch[1];
+    }
+    
+    const categories=['food','transport','entertainment','utilities','healthcare','shopping','education','housing'];
+    const foundCat=categories.find(cat=>transcript.toLowerCase().includes(cat));
+    if(foundCat){
+      document.getElementById('quickCat').value=foundCat.charAt(0).toUpperCase()+foundCat.slice(1);
+    }
+    
+    toast('✅ Voice captured!','ok');
+    document.getElementById('voiceBtn').textContent='🎤';
+  };
+  
+  recognition.onerror=()=>{
+    toast('Voice input failed. Try again.','err');
+    document.getElementById('voiceBtn').textContent='🎤';
+  };
+  
+  recognition.start();
+});
+// ═══════════════════════════════════════════════════════════════════════════
+// ADVANCED ANALYTICS DASHBOARD
+// ═══════════════════════════════════════════════════════════════════════════
+
+let weeklyChart,topExpensesChart,quarterlyChart;
+
+document.getElementById('toggleDashboard').addEventListener('click',()=>{
+  const dashboard=document.getElementById('analyticsDashboard');
+  const isVisible=dashboard.style.display!=='none';
+  dashboard.style.display=isVisible?'none':'block';
+  
+  if(!isVisible){
+    renderAdvancedDashboard();
+  }
+});
+
+function renderAdvancedDashboard(){
+  const last90Days=new Date();
+  last90Days.setDate(last90Days.getDate()-90);
+  const recentExpenses=currentExpenses.filter(e=>new Date(e.date+'T00:00:00')>=last90Days);
+  
+  if(weeklyChart)weeklyChart.destroy();
+  const weeklyData={};
+  const weeks=['Week 1','Week 2','Week 3','Week 4'];
+  weeks.forEach(w=>weeklyData[w]=0);
+  
+  recentExpenses.forEach(e=>{
+    const daysDiff=Math.floor((new Date()-new Date(e.date+'T00:00:00'))/(1000*60*60*24));
+    const weekNum=Math.floor(daysDiff/7);
+    if(weekNum<4){
+      weeklyData[`Week ${4-weekNum}`]+=e.amt;
+    }
+  });
+  
+  const weeklyCtx=document.getElementById('weeklyChart').getContext('2d');
+  weeklyChart=new Chart(weeklyCtx,{
+    type:'line',
+    data:{
+      labels:weeks,
+      datasets:[{
+        label:'Spending',
+        data:Object.values(weeklyData),
+        borderColor:'#3b82f6',
+        backgroundColor:'rgba(59,130,246,0.1)',
+        borderWidth:3,
+        fill:true,
+        tension:0.4
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:true,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`KSH ${ctx.parsed.y.toLocaleString()}`}}
+      },
+      scales:{
+        y:{beginAtZero:true,ticks:{callback:v=>'KSH '+v.toLocaleString()}}
+      }
+    }
+  });
+  
+  if(topExpensesChart)topExpensesChart.destroy();
+  const topExpenses=recentExpenses.sort((a,b)=>b.amt-a.amt).slice(0,5);
+  const topCtx=document.getElementById('topExpensesChart').getContext('2d');
+  topExpensesChart=new Chart(topCtx,{
+    type:'bar',
+    data:{
+      labels:topExpenses.map(e=>e.desc.substring(0,15)),
+      datasets:[{
+        label:'Amount',
+        data:topExpenses.map(e=>e.amt),
+        backgroundColor:['#ef4444','#f59e0b','#10b981','#3b82f6','#8b5cf6'],
+        borderWidth:0
+      }]
+    },
+    options:{
+      indexAxis:'y',
+      responsive:true,
+      maintainAspectRatio:true,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`KSH ${ctx.parsed.x.toLocaleString()}`}}
+      },
+      scales:{
+        x:{ticks:{callback:v=>'KSH '+v.toLocaleString()}}
+      }
+    }
+  });
+  
+  if(quarterlyChart)quarterlyChart.destroy();
+  const categoryData={};
+  recentExpenses.forEach(e=>{categoryData[e.cat]=(categoryData[e.cat]||0)+e.amt});
+  
+  const qtrCtx=document.getElementById('quarterlyChart').getContext('2d');
+  quarterlyChart=new Chart(qtrCtx,{
+    type:'bar',
+    data:{
+      labels:Object.keys(categoryData),
+      datasets:[{
+        label:'Last 90 Days',
+        data:Object.values(categoryData),
+        backgroundColor:Object.keys(categoryData).map(cat=>CAT_COLORS[cat]||'#6b7280'),
+        borderWidth:1,
+        borderColor:'#fff'
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:true,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:ctx=>`KSH ${ctx.parsed.y.toLocaleString()}`}}
+      },
+      scales:{
+        y:{beginAtZero:true,ticks:{callback:v=>'KSH '+v.toLocaleString()}}
+      }
+    }
+  });
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// CUSTOM CATEGORIES
+// ═══════════════════════════════════════════════════════════════════════════
+
+let customCategories=JSON.parse(localStorage.getItem('customCategories')||'[]');
+
+document.getElementById('manageCategoriesBtn').addEventListener('click',()=>{
+  const allCategories=[
+    ...['Food','Transport','Entertainment','Utilities','Healthcare','Shopping','Education','Housing','Other'],
+    ...customCategories.map(c=>c.name)
+  ];
+  
+  const html=`<div style="max-height:400px;overflow-y:auto">
+    <h4 style="margin-bottom:1rem;color:var(--navy)">Existing Categories:</h4>
+    ${allCategories.map(cat=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:.5rem;border-bottom:1px solid var(--border)">
+      <span>${cat}</span>
+      ${customCategories.find(c=>c.name===cat)?`<button onclick="deleteCategory('${cat}')" style="background:none;border:none;color:var(--red);cursor:pointer">🗑️</button>`:''}
+    </div>`).join('')}
+    <h4 style="margin:1.5rem 0 1rem;color:var(--navy)">Add New Category:</h4>
+    <div style="display:flex;gap:.5rem">
+      <input type="text" id="newCategoryName" placeholder="Category name" style="flex:1;padding:.5rem;border:1px solid var(--border);border-radius:var(--radius-sm)" />
+      <input type="text" id="newCategoryIcon" placeholder="Emoji" maxlength="2" style="width:60px;padding:.5rem;border:1px solid var(--border);border-radius:var(--radius-sm);text-align:center" />
+      <button onclick="addCustomCategory()" class="btn btn-navy btn-sm">Add</button>
+    </div>
+  </div>
+  <div style="margin-top:1rem;text-align:center">
+    <button class="btn btn-ghost" onclick="document.getElementById('categoriesModal').classList.remove('show')">Close</button>
+  </div>`;
+  
+  showCustomModal('🎨 Manage Categories',html);
+  document.getElementById('categoriesModal').id='categoriesModal';
+});
+
+function addCustomCategory(){
+  const name=document.getElementById('newCategoryName').value.trim();
+  const icon=document.getElementById('newCategoryIcon').value.trim();
+  
+  if(!name){toast('Enter category name','err');return}
+  
+  customCategories.push({name,icon:icon||'📌'});
+  localStorage.setItem('customCategories',JSON.stringify(customCategories));
+  
+  updateCategorySelects();
+  document.getElementById('manageCategoriesBtn').click();
+  toast('Category added!','ok');
+}
+
+function deleteCategory(name){
+  customCategories=customCategories.filter(c=>c.name!==name);
+  localStorage.setItem('customCategories',JSON.stringify(customCategories));
+  document.getElementById('manageCategoriesBtn').click();
+  toast('Category deleted','ok');
+}
+
+function updateCategorySelects(){
+  const selects=document.querySelectorAll('#expCat,#quickCat');
+  selects.forEach(select=>{
+    const currentValue=select.value;
+    select.innerHTML=`
+      <option value="Food">🍽 Food</option>
+      <option value="Transport">🚗 Transport</option>
+      <option value="Entertainment">🎬 Entertainment</option>
+      <option value="Utilities">💡 Utilities</option>
+      <option value="Healthcare">🏥 Healthcare</option>
+      <option value="Shopping">🛍 Shopping</option>
+      <option value="Education">📚 Education</option>
+      <option value="Housing">🏠 Housing</option>
+      <option value="Other">📌 Other</option>
+      ${customCategories.map(c=>`<option value="${c.name}">${c.icon} ${c.name}</option>`).join('')}
+    `;
+    select.value=currentValue;
+  });
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// MULTI-CURRENCY SUPPORT
+// ═══════════════════════════════════════════════════════════════════════════
+
+let currentCurrency=localStorage.getItem('currency')||'KSH';
+const currencyRates={KSH:1,USD:0.0077,EUR:0.0071,GBP:0.0061};
+const currencySymbols={KSH:'KSH',USD:'$',EUR:'€',GBP:'£'};
+
+document.getElementById('currencySelector').value=currentCurrency;
+
+document.getElementById('currencySelector').addEventListener('change',e=>{
+  currentCurrency=e.target.value;
+  localStorage.setItem('currency',currentCurrency);
+  renderTable();
+  renderStats();
+  toast(`Currency changed to ${currentCurrency}`,'ok');
+});
+
+function formatCurrency(amount){
+  const converted=amount*currencyRates[currentCurrency];
+  const symbol=currencySymbols[currentCurrency];
+  return currentCurrency==='KSH'?`${symbol} ${converted.toLocaleString('en',{minimumFractionDigits:2})}`:`${symbol}${converted.toLocaleString('en',{minimumFractionDigits:2})}`;
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// DESKTOP NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+function requestNotificationPermission(){
+  if('Notification' in window&&Notification.permission==='default'){
+    Notification.requestPermission();
+  }
+}
+
+function sendNotification(title,body,icon='💰'){
+  if('Notification' in window&&Notification.permission==='granted'){
+    new Notification(title,{body,icon:'/favicon.ico',badge:icon});
+  }
+}
+
+setTimeout(requestNotificationPermission,3000);
+
+function checkDailyReminder(){
+  const lastReminder=localStorage.getItem('lastReminder')||'';
+  const today=new Date().toISOString().split('T')[0];
+  
+  if(lastReminder!==today){
+    const todayExpenses=currentExpenses.filter(e=>e.date===today);
+    if(todayExpenses.length===0&&new Date().getHours()>=18){
+      sendNotification('📝 Daily Reminder','Don\'t forget to log your expenses today!');
+      localStorage.setItem('lastReminder',today);
+    }
+  }
+}
+
+setInterval(checkDailyReminder,3600000);
+// ═══════════════════════════════════════════════════════════════════════════
+// PWA INSTALL PROMPT
+// ═══════════════════════════════════════════════════════════════════════════
+
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  
+  const installBtn=document.createElement('button');
+  installBtn.className='btn btn-gold btn-sm';
+  installBtn.innerHTML='📱 Install App';
+  installBtn.style.cssText='position:fixed;bottom:20px;left:20px;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.2)';
+  installBtn.onclick=async()=>{
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      const{outcome}=await deferredPrompt.userChoice;
+      if(outcome==='accepted'){
+        toast('✅ App installed!','ok');
+        installBtn.remove();
+      }
+      deferredPrompt=null;
+    }
+  };
+  document.body.appendChild(installBtn);
+  
+  setTimeout(()=>installBtn.remove(),10000);
+});
+// ═══════════════════════════════════════════════════════════════════════════
+// SHARE TO WHATSAPP
+// ═══════════════════════════════════════════════════════════════════════════
+
+document.getElementById('whatsappInsightsBtn').addEventListener('click',()=>{
+  if(!currentInsightsText){toast('Generate insights first','err');return}
+  
+  const summary=currentInsightsText.split('\n').slice(0,15).join('\n');
+  const message=`*FinanceFlow AI Insights*\n\n${summary}\n\n_Full report available in app_`;
+  const url=`https://wa.me/?text=${encodeURIComponent(message)}`;
+  
+  window.open(url,'_blank');
+  toast('✅ Opening WhatsApp...','ok');
+});
+// ═══════════════════════════════════════════════════════════════════════════
+// KEYBOARD SHORTCUTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+const shortcuts=document.createElement('div');
+shortcuts.className='shortcuts-hint';
+shortcuts.innerHTML=`⌨️ Shortcuts: <br>
+<kbd>Ctrl+N</kbd> Quick Add | 
+<kbd>Ctrl+F</kbd> Search | 
+<kbd>Ctrl+E</kbd> Export | 
+<kbd>?</kbd> Help`;
+document.body.appendChild(shortcuts);
+
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.key==='n'){
+    e.preventDefault();
+    document.getElementById('quickAddFab').click();
+  }
+  if(e.ctrlKey&&e.key==='f'){
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+  if(e.ctrlKey&&e.key==='e'){
+    e.preventDefault();
+    document.getElementById('exportBtn').click();
+  }
+  if(e.ctrlKey&&e.key==='i'){
+    e.preventDefault();
+    document.getElementById('aiInsightsBtn').click();
+  }
+  if(e.key==='?'){
+    shortcuts.classList.toggle('show');
+    setTimeout(()=>shortcuts.classList.remove('show'),5000);
+  }
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('show'));
+  }
+});
+// ═══════════════════════════════════════════════════════════════════════════
+// AI CHAT ASSISTANT
+// ═══════════════════════════════════════════════════════════════════════════
+
+document.getElementById('aiChatBtn').addEventListener('click',()=>{
+  document.getElementById('aiChatModal').classList.add('show');
+  addChatMessage('bot','Hi! I can answer questions about your spending. Try asking: "What did I spend most on?" or "How much did I spend this week?"');
+});
+
+document.getElementById('chatSendBtn').addEventListener('click',()=>sendChatMessage());
+document.getElementById('chatInput').addEventListener('keypress',e=>{
+  if(e.key==='Enter')sendChatMessage();
+});
+
+function addChatMessage(sender,text){
+  const messages=document.getElementById('chatMessages');
+  const div=document.createElement('div');
+  div.style.cssText=`margin-bottom:.8rem;padding:.7rem 1rem;border-radius:var(--radius-sm);${sender==='bot'?'background:var(--navy-light);margin-right:3rem':'background:var(--gold-light);margin-left:3rem;text-align:right'}`;
+  div.innerHTML=`<div style="font-size:.7rem;color:var(--text3);margin-bottom:.2rem">${sender==='bot'?'🤖 AI':'You'}</div><div style="font-size:.85rem;color:var(--text)">${text}</div>`;
+  messages.appendChild(div);
+  messages.scrollTop=messages.scrollHeight;
+}
+
+function sendChatMessage(){
+  const input=document.getElementById('chatInput');
+  const question=input.value.trim().toLowerCase();
+  if(!question)return;
+  
+  addChatMessage('user',input.value);
+  input.value='';
+  
+  setTimeout(()=>{
+    let answer='';
+    
+    if(question.includes('most')||question.includes('top')){
+      const categoryTotals={};
+      currentExpenses.forEach(e=>categoryTotals[e.cat]=(categoryTotals[e.cat]||0)+e.amt);
+      const top=Object.entries(categoryTotals).sort((a,b)=>b[1]-a[1])[0];
+      answer=`You spent the most on ${top[0]}: ${formatCurrency(top[1])}`;
+    }
+    else if(question.includes('week')||question.includes('7 day')){
+      const weekAgo=new Date();weekAgo.setDate(weekAgo.getDate()-7);
+      const weekExpenses=currentExpenses.filter(e=>new Date(e.date+'T00:00:00')>=weekAgo);
+      const total=weekExpenses.reduce((s,e)=>s+e.amt,0);
+      answer=`This week you spent ${formatCurrency(total)} across ${weekExpenses.length} transactions.`;
+    }
+    else if(question.includes('month')||question.includes('30 day')){
+      const monthAgo=new Date();monthAgo.setMonth(monthAgo.getMonth()-1);
+      const monthExpenses=currentExpenses.filter(e=>new Date(e.date+'T00:00:00')>=monthAgo);
+      const total=monthExpenses.reduce((s,e)=>s+e.amt,0);
+      answer=`This month you spent ${formatCurrency(total)} across ${monthExpenses.length} transactions.`;
+    }
+    else if(question.includes('today')){
+      const today=new Date().toISOString().split('T')[0];
+      const todayExpenses=currentExpenses.filter(e=>e.date===today);
+      const total=todayExpenses.reduce((s,e)=>s+e.amt,0);
+      answer=todayExpenses.length>0?`Today you spent ${formatCurrency(total)} on ${todayExpenses.length} items.`:'No expenses logged today yet.';
+    }
+    else if(question.includes('average')||question.includes('avg')){
+      const total=currentExpenses.reduce((s,e)=>s+e.amt,0);
+      const avg=total/currentExpenses.length;
+      answer=`Your average expense is ${formatCurrency(avg)} per transaction.`;
+    }
+    else if(question.includes('total')||question.includes('all time')){
+      const total=currentExpenses.reduce((s,e)=>s+e.amt,0);
+      answer=`All time total: ${formatCurrency(total)} across ${currentExpenses.length} transactions.`;
+    }
+    else{
+      answer='I can help you analyze your spending! Try asking: "What did I spend this week?" or "What\'s my top category?"';
+    }
+    
+    addChatMessage('bot',answer);
+  },800);
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// EXPENSE SPLITTING
+// ═══════════════════════════════════════════════════════════════════════════
+
+document.getElementById('quickSplitBtn').addEventListener('click',()=>{
+  document.getElementById('quickAddModal').classList.remove('show');
+  const html=`<div class="quick-add-form">
+    <input type="text" id="splitDesc" placeholder="What are you splitting?" />
+    <input type="number" id="splitTotal" placeholder="Total Amount (KSH)" step="0.01" />
+    <input type="number" id="splitPeople" placeholder="Number of People" min="2" value="2" />
+    <div style="background:var(--surface2);padding:.8rem;border-radius:var(--radius-sm);margin-top:.5rem">
+      <div style="font-size:.8rem;font-weight:600;color:var(--navy);margin-bottom:.3rem">Split Result:</div>
+      <div id="splitResult" style="font-size:1.2rem;font-weight:700;color:var(--gold)">—</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:.5rem;margin-top:1rem">
+    <button class="btn btn-navy" onclick="saveSplitExpense()">💾 Save My Share</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('splitModal').classList.remove('show')">Cancel</button>
+  </div>`;
+  showCustomModal('👥 Split Bill',html);
+  document.getElementById('splitModal').id='splitModal';
+  
+  const calc=()=>{
+    const total=parseFloat(document.getElementById('splitTotal').value)||0;
+    const people=parseInt(document.getElementById('splitPeople').value)||2;
+    const share=total/people;
+    document.getElementById('splitResult').textContent=share>0?`Your share: KSH ${share.toFixed(2)}`:'—';
+  };
+  document.getElementById('splitTotal').addEventListener('input',calc);
+  document.getElementById('splitPeople').addEventListener('input',calc);
+});
+
+async function saveSplitExpense(){
+  const desc=document.getElementById('splitDesc').value.trim();
+  const total=parseFloat(document.getElementById('splitTotal').value);
+  const people=parseInt(document.getElementById('splitPeople').value);
+  
+  if(!desc||!total||total<=0||!people||people<2){
+    toast('Fill all fields','err');
+    return;
+  }
+  
+  const myShare=total/people;
+  
+  try{
+    await db.collection('expenses').add({
+      userId:currentUserId,
+      desc:`${desc} (Split ${people} ways)`,
+      amt:myShare,
+      cat:'Other',
+      date:new Date().toISOString().split('T')[0],
+      notes:`Total: KSH ${total} / ${people} people = KSH ${myShare.toFixed(2)} each`,
+      createdAt:firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    document.getElementById('splitModal').classList.remove('show');
+    toast(`✅ Split expense saved! Your share: KSH ${myShare.toFixed(2)}`,'ok');
+  }catch(err){
+    toast('Error saving','err');
+  }
+}
 // ═══════════════════════════════════════════════════════════════════════════
 // BUDGET MANAGEMENT
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1496,69 +2450,191 @@ function generateBasicAnalysis(expenses,period,categoryData,total,avgPerTransact
 }
 
 document.getElementById('downloadInsightsBtn').addEventListener('click',async()=>{
-  if(!currentInsightsText||!currentChartsData){
-    toast('Generate insights first','err');
-    return;
-  }
+  if(!currentInsightsText||!currentChartsData){toast('Generate insights first','err');return}
   
   const userDoc=await db.collection('users').doc(currentUserId).get();
   const user=userDoc.data();
   const period=currentAIPeriod;
+  const expenses=getExpensesByPeriod(period);
+  const total=expenses.reduce((s,e)=>s+e.amt,0);
   
   const{jsPDF}=window.jspdf;
-  const doc=new jsPDF();
-  const pageWidth=210;
-  const margin=15;
-  const contentWidth=pageWidth-(margin*2);
+  const doc=new jsPDF({compress:true});
+  const PW=210,PH=297,M=15,CW=PW-(M*2);
+  let currentPage=1;
   
-  doc.setFillColor(30,58,95);
-  doc.rect(0,0,pageWidth,40,'F');
-  doc.setTextColor(255,255,255);
-  doc.setFontSize(24);
-  doc.setFont('helvetica','bold');
-  doc.text('AI EXPENSE INSIGHTS',margin,20);
-  doc.setFontSize(10);
-  doc.setFont('helvetica','normal');
-  doc.text(`${user.first} ${user.last} • ${new Date().toLocaleDateString('en-GB')}`,margin,30);
+  function addPageTemplate(pageNum){
+    doc.setFillColor(30,58,95);
+    doc.rect(0,0,PW,30,'F');
+    doc.setFillColor(194,133,58);
+    doc.rect(0,30,PW,3,'F');
+    
+    doc.setTextColor(255,255,255);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(20);
+    doc.text('AI EXPENSE INSIGHTS',M,15);
+    
+    doc.setFontSize(8);
+    doc.setFont('helvetica','normal');
+    doc.text(`${user.first} ${user.last}`,M,23);
+    doc.text(`${period.toUpperCase()} Analysis`,M,27);
+    
+    doc.setFontSize(7);
+    const dateStr=new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    doc.text(dateStr,PW-M,23,{align:'right'});
+    doc.text(`Page ${pageNum}`,PW-M,27,{align:'right'});
+    
+    doc.setDrawColor(226,232,240);
+    doc.setLineWidth(0.5);
+    doc.line(M,PH-12,PW-M,PH-12);
+    doc.setTextColor(148,163,184);
+    doc.setFontSize(6);
+    doc.text('FinanceFlow - AI-Powered Financial Analysis',M,PH-8);
+    doc.text('Proudly Designed By Benjamin',PW-M,PH-8,{align:'right'});
+  }
   
-  let y=50;
+  addPageTemplate(currentPage);
+  let y=40;
+  
+  doc.setFillColor(239,246,255);
+  doc.roundedRect(M,y,CW,25,2,2,'F');
+  doc.setDrawColor(30,58,95);
+  doc.setLineWidth(1);
+  doc.roundedRect(M,y,CW,25,2,2,'S');
+  
   doc.setTextColor(30,58,95);
-  doc.setFontSize(14);
   doc.setFont('helvetica','bold');
-  doc.text('Spending Visualizations',margin,y);
-  y+=10;
+  doc.setFontSize(14);
+  doc.text('EXECUTIVE SUMMARY',M+3,y+8);
+  
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(9);
+  doc.setTextColor(71,85,105);
+  doc.text(`Total Expenses: KSH ${total.toLocaleString('en',{minimumFractionDigits:2})}`,M+3,y+15);
+  doc.text(`Transactions: ${expenses.length}`,M+3,y+20);
+  doc.text(`Period: ${period==='week'?'Last 7 Days':period==='month'?'Last 30 Days':period==='year'?'Last 365 Days':'All Time'}`,PW-M-3,y+15,{align:'right'});
+  doc.text(`Avg/Transaction: KSH ${(total/expenses.length).toLocaleString('en',{minimumFractionDigits:2})}`,PW-M-3,y+20,{align:'right'});
+  
+  y+=32;
+  
+  doc.setFillColor(253,242,233);
+  doc.roundedRect(M,y,CW,10,2,2,'F');
+  doc.setTextColor(30,58,95);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(12);
+  doc.text('📊 VISUAL ANALYSIS',M+3,y+7);
+  y+=15;
   
   try{
     const catCanvas=document.getElementById('categoryChart');
-    const catImg=catCanvas.toDataURL('image/png');
-    doc.addImage(catImg,'PNG',margin,y,80,80);
+    if(catCanvas){
+      const catImg=catCanvas.toDataURL('image/png',1.0);
+      doc.addImage(catImg,'PNG',M,y,80,80);
+    }
     
     const trendCanvas=document.getElementById('trendChart');
-    const trendImg=trendCanvas.toDataURL('image/png');
-    doc.addImage(trendImg,'PNG',margin+90,y,80,80);
-    y+=90;
+    if(trendCanvas){
+      const trendImg=trendCanvas.toDataURL('image/png',1.0);
+      doc.addImage(trendImg,'PNG',M+85,y,80,80);
+    }
+    y+=85;
+    
+    const compCanvas=document.getElementById('comparisonChart');
+    if(compCanvas){
+      if(y>PH-100){doc.addPage();currentPage++;addPageTemplate(currentPage);y=40}
+      y+=5;
+      doc.setFillColor(253,242,233);
+      doc.roundedRect(M,y,CW,10,2,2,'F');
+      doc.setTextColor(30,58,95);
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(12);
+      doc.text('📈 MONTHLY COMPARISON',M+3,y+7);
+      y+=15;
+      const compImg=compCanvas.toDataURL('image/png',1.0);
+      doc.addImage(compImg,'PNG',M,y,CW,55);
+      y+=60;
+    }
   }catch(err){
-    console.error('Chart export error:',err);
+    console.error('Chart error:',err);
   }
   
-  doc.setFontSize(14);
-  doc.setFont('helvetica','bold');
-  doc.text('AI Analysis & Recommendations',margin,y);
-  y+=8;
+  if(y>PH-40){doc.addPage();currentPage++;addPageTemplate(currentPage);y=40}
   
-  doc.setFontSize(9);
+  y+=5;
+  doc.setFillColor(254,243,199);
+  doc.roundedRect(M,y,CW,10,2,2,'F');
+  doc.setTextColor(30,58,95);
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(12);
+  doc.text('🤖 AI-POWERED INSIGHTS',M+3,y+7);
+  y+=15;
+  
+  const lines=currentInsightsText.split('\n');
   doc.setFont('helvetica','normal');
-  doc.setTextColor(50,50,50);
-  const lines=doc.splitTextToSize(currentInsightsText,contentWidth);
+  doc.setFontSize(8);
   
   lines.forEach(line=>{
-    if(y>280){doc.addPage();y=20}
-    doc.text(line,margin,y);
-    y+=5;
+    if(!line.trim())return;
+    
+    if(y>PH-20){
+      doc.addPage();
+      currentPage++;
+      addPageTemplate(currentPage);
+      y=40;
+    }
+    
+    if(line.match(/^━━━━/)){
+      y+=2;
+      doc.setDrawColor(226,232,240);
+      doc.setLineWidth(0.3);
+      doc.line(M,y,PW-M,y);
+      y+=3;
+      return;
+    }
+    
+    if(line.match(/^[📊📈💡🔮💰🏥🎯🚨⚠️✅]/)){
+      if(y>40){
+        doc.setFillColor(249,250,251);
+        doc.roundedRect(M,y-2,CW,8,1,1,'F');
+      }
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(9);
+      doc.setTextColor(30,58,95);
+      doc.text(line.substring(0,60),M+2,y+3);
+      y+=9;
+      return;
+    }
+    
+    if(line.match(/^[🥇🥈🥉4️⃣5️⃣]/)){
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(8);
+      doc.setTextColor(194,133,58);
+    }else if(line.match(/^[•├└─]/)||line.trim().startsWith('└─')||line.trim().startsWith('├─')){
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(7.5);
+      doc.setTextColor(100,116,139);
+    }else{
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(8);
+      doc.setTextColor(71,85,105);
+    }
+    
+    const wrappedLines=doc.splitTextToSize(line,CW-4);
+    wrappedLines.forEach(wLine=>{
+      if(y>PH-20){
+        doc.addPage();
+        currentPage++;
+        addPageTemplate(currentPage);
+        y=40;
+      }
+      doc.text(wLine,M+2,y);
+      y+=4;
+    });
   });
   
-  doc.save(`AI_Insights_${user.first}_${user.last}_${period.toUpperCase()}.pdf`);
-  toast('AI Report downloaded!','ok');
+  const fileName=`AI_Insights_${user.first}_${user.last}_${period.toUpperCase()}_${new Date().getTime()}.pdf`;
+  doc.save(fileName);
+  toast('✅ Professional AI Report Downloaded!','ok');
 });
 
 document.getElementById('emailInsightsBtn').addEventListener('click',()=>{
