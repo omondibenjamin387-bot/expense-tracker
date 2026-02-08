@@ -37,8 +37,21 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-hei
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 .z1{position:relative;z-index:1}
-#authScreen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;background:linear-gradient(135deg,#eef2ff 0%,#f4f6f9 40%,#fdf2e9 100%);position:relative}
-#authScreen::before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.4;background:radial-gradient(circle at 15% 25%,rgba(30,58,95,.06) 0%,transparent 50%),radial-gradient(circle at 85% 75%,rgba(194,133,58,.08) 0%,transparent 50%)}
+#authScreen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;background:#0a0e27;position:relative;overflow:hidden}
+#authScreen::before{content:'';position:fixed;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(30,58,95,0.95) 0%,rgba(15,23,42,0.98) 50%,rgba(30,58,95,0.95) 100%);z-index:1;animation:gradientShift 15s ease infinite}
+#authScreen::after{content:'';position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(circle at 20% 30%,rgba(194,133,58,0.15) 0%,transparent 50%),radial-gradient(circle at 80% 70%,rgba(37,99,235,0.12) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(16,185,129,0.08) 0%,transparent 70%);animation:pulseGlow 8s ease-in-out infinite;z-index:1}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes pulseGlow{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.7;transform:scale(1.1)}}
+.finance-particle{position:absolute;color:rgba(194,133,58,0.3);font-size:1.2rem;pointer-events:none;animation:float 20s linear infinite;z-index:0}
+.finance-particle:nth-child(1){left:10%;top:20%;animation-delay:0s;animation-duration:25s}
+.finance-particle:nth-child(2){left:80%;top:60%;animation-delay:2s;animation-duration:22s}
+.finance-particle:nth-child(3){left:30%;top:80%;animation-delay:4s;animation-duration:28s}
+.finance-particle:nth-child(4){left:70%;top:30%;animation-delay:6s;animation-duration:20s}
+.finance-particle:nth-child(5){left:50%;top:50%;animation-delay:8s;animation-duration:24s}
+.finance-particle:nth-child(6){left:15%;top:70%;animation-delay:1s;animation-duration:26s;color:rgba(37,99,235,0.25)}
+.finance-particle:nth-child(7){left:85%;top:15%;animation-delay:3s;animation-duration:23s;color:rgba(16,185,129,0.2)}
+.finance-particle:nth-child(8){left:40%;top:40%;animation-delay:5s;animation-duration:27s;color:rgba(194,133,58,0.25)}
+@keyframes float{0%{transform:translateY(0) rotate(0deg);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-100vh) rotate(360deg);opacity:0}}
 .auth-logo{text-align:center;margin-bottom:2.2rem;position:relative;z-index:1}
 .auth-logo h1{font-family:var(--font-display);font-size:3rem;font-weight:700;color:var(--navy);letter-spacing:-.5px;line-height:1.1}
 .auth-logo h1 em{color:var(--gold);font-style:normal}
@@ -178,6 +191,36 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
 @media(max-width:600px){.topbar{padding:.55rem 1rem}.page{padding:1rem 1rem 2.5rem}.add-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:1fr 1fr}.topbar-user .topbar-name{display:none}table{font-size:.76rem}thead th,tbody td{padding:.55rem .65rem}}
 @keyframes fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .anim-in{animation:fade-up .38s cubic-bezier(.4,0,.2,1) both}
+.budget-section{margin-bottom:1.6rem}
+.budget-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:.8rem;box-shadow:var(--shadow)}
+.budget-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
+.budget-category{font-size:.85rem;font-weight:600;color:var(--navy)}
+.budget-amount{font-size:.75rem;color:var(--text3)}
+.budget-progress-bg{width:100%;height:8px;background:var(--surface2);border-radius:20px;overflow:hidden;position:relative}
+.budget-progress-bar{height:100%;border-radius:20px;transition:width .5s ease,background .3s}
+.budget-progress-bar.safe{background:linear-gradient(90deg,#10b981,#34d399)}
+.budget-progress-bar.warning{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.budget-progress-bar.danger{background:linear-gradient(90deg,#ef4444,#f87171)}
+.budget-status{display:flex;justify-content:space-between;margin-top:.4rem;font-size:.7rem}
+.budget-spent{color:var(--text2);font-weight:600}
+.budget-remaining{color:var(--text3)}
+.budget-remaining.over{color:var(--red);font-weight:700}
+.set-budget-btn{background:var(--gold-light);color:var(--gold);border:1px dashed var(--gold);padding:.5rem 1rem;border-radius:var(--radius-sm);font-size:.75rem;cursor:pointer;transition:all .3s;font-weight:600}
+.set-budget-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.quick-add-fab{position:fixed;bottom:2rem;right:2rem;width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#fff;border:none;font-size:1.8rem;cursor:pointer;box-shadow:0 8px 24px rgba(194,133,58,.4);transition:all .3s;z-index:150;display:flex;align-items:center;justify-content:center}
+.quick-add-fab:hover{transform:scale(1.1) rotate(90deg);box-shadow:0 12px 32px rgba(194,133,58,.6)}
+.quick-add-fab:active{transform:scale(1)}
+.quick-add-modal .modal{max-width:400px}
+.quick-add-form{display:flex;flex-direction:column;gap:.8rem}
+.quick-add-form input,.quick-add-form select{padding:.7rem;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.85rem}
+.streak-badge{background:linear-gradient(135deg,#8b5cf6,#a78bfa);color:#fff;padding:.8rem 1.2rem;border-radius:var(--radius);display:inline-flex;align-items:center;gap:.6rem;font-weight:600;font-size:.85rem;box-shadow:0 4px 12px rgba(139,92,246,.3);margin-bottom:1rem}
+.streak-number{font-size:1.8rem;font-family:var(--font-display)}
+.achievement-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#fff;padding:2rem;border-radius:var(--radius);text-align:center;z-index:300;box-shadow:0 20px 60px rgba(0,0,0,.4);transition:transform .5s cubic-bezier(.68,-.55,.265,1.55)}
+.achievement-popup.show{transform:translate(-50%,-50%) scale(1)}
+.achievement-popup h2{font-size:2rem;margin-bottom:.5rem}
+body.dark-mode{--bg:#0f172a;--surface:#1e293b;--surface2:#334155;--text:#f1f5f9;--text2:#cbd5e1;--text3:#94a3b8;--border:#334155;--border2:#475569}
+.theme-toggle{background:var(--surface2);border:1px solid var(--border);padding:.4rem;border-radius:var(--radius-sm);cursor:pointer;transition:all .3s}
+.theme-toggle:hover{background:var(--gold-light)}
 .support-btn{display:flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border-radius:var(--radius-sm);text-decoration:none;font-size:.75rem;font-weight:600;transition:all .3s;letter-spacing:.3px}
 .support-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
 .support-btn:active{transform:translateY(0)}
@@ -186,7 +229,17 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
 <body>
 
 <section id="authScreen" class="z1">
-  <div class="auth-logo"><h1>Finance<em>Flow</em></h1><p>Expense Management</p></div>
+  <!-- Animated Finance Particles -->
+  <div class="finance-particle">💰</div>
+  <div class="finance-particle">📊</div>
+  <div class="finance-particle">💳</div>
+  <div class="finance-particle">📈</div>
+  <div class="finance-particle">💵</div>
+  <div class="finance-particle">🏦</div>
+  <div class="finance-particle">💎</div>
+  <div class="finance-particle">📉</div>
+  
+  <div class="auth-logo"><h1>Finance<em>Flow</em></h1><p>Cloud-Powered Expense Management</p></div>
   <div class="auth-card">
     <div class="auth-tabs">
       <button class="auth-tab active" data-tab="login">Sign In</button>
@@ -255,6 +308,7 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
       <div class="topbar-user"><div class="topbar-avatar" id="topbarAvatar">JD</div><span class="topbar-name" id="topbarName">Jane Doe</span></div>
     </div>
     <div class="topbar-right">
+      <button class="theme-toggle btn-sm" id="themeToggle" title="Toggle Dark Mode">🌙</button>
       <button class="btn btn-navy btn-sm" id="aiInsightsBtn">🤖 AI Insights</button>
       <button class="btn btn-navy btn-sm" id="exportBtn">⬇ Export</button>
       <button class="btn btn-ghost btn-sm" id="logoutBtn">Sign Out</button>
@@ -288,6 +342,31 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
       <div class="stat-card anim-in" style="animation-delay:.13s"><div class="stat-label">Annual</div><div class="stat-value gold" id="statAnnual">KSH 0</div><div class="stat-sub" id="statAnnualSub">0 transactions</div></div>
       <div class="stat-card anim-in" style="animation-delay:.19s"><div class="stat-label">All Time</div><div class="stat-value" id="statTotal">KSH 0</div><div class="stat-sub" id="statTotalSub">0 total entries</div></div>
     </div>
+    
+    <div id="streakBadge"></div>
+    
+    <div class="stat-card" style="background:linear-gradient(135deg,#eef2ff,#fdf2e9);border:2px solid var(--gold);margin-bottom:1rem">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="stat-label">💫 Today's Spending</div>
+          <div class="stat-value gold" id="todaySpending">KSH 0</div>
+          <div class="stat-sub" id="todaySub">0 transactions today</div>
+        </div>
+        <div style="text-align:right">
+          <div class="stat-label">🎯 Biggest Purchase</div>
+          <div style="font-size:1.2rem;font-weight:700;color:var(--navy)" id="biggestToday">—</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="budget-section anim-in" style="animation-delay:.25s">
+      <div class="section-head">
+        <h2>Budget <span>Goals</span></h2>
+        <button class="btn btn-ghost btn-sm" id="manageBudgetsBtn">⚙️ Manage</button>
+      </div>
+      <div id="budgetCards"></div>
+    </div>
+    
     <div class="table-wrap anim-in" style="animation-delay:.24s">
       <div class="table-bar">
         <h3>Expense History</h3>
@@ -356,6 +435,11 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
         </div>
       </div>
       
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:1.5rem">
+        <h4 style="font-size:.85rem;color:var(--navy);margin-bottom:1rem;font-weight:600">📊 Monthly Comparison: This Month vs Last Month</h4>
+        <canvas id="comparisonChart" style="max-height:250px"></canvas>
+      </div>
+      
       <div style="background:linear-gradient(135deg,#eef2ff,#fdf2e9);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1rem">
         <h4 style="font-size:.9rem;color:var(--navy);margin-bottom:.8rem;font-weight:600;display:flex;align-items:center;gap:.5rem">
           <span style="font-size:1.2rem">💡</span> AI Insights & Recommendations
@@ -391,6 +475,33 @@ tbody td{padding:.72rem 1.1rem;font-size:.82rem;color:var(--text)}
 
 <div class="confirm-overlay" id="confirmOverlay"><div class="confirm-box"><h4 id="confirmTitle">Confirm</h4><p id="confirmMsg">Sure?</p><div class="confirm-btns"><button class="btn btn-ghost btn-sm" id="confirmCancel">Cancel</button><button class="btn btn-red btn-sm" id="confirmOk">Delete</button></div></div></div>
 <div class="toast" id="toast"><div class="toast-dot"></div><span id="toastMsg"></span></div>
+
+<button class="quick-add-fab" id="quickAddFab" title="Quick Add Expense">+</button>
+<div class="achievement-popup" id="achievementPopup"></div>
+
+<div class="modal-overlay quick-add-modal" id="quickAddModal">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('quickAddModal').classList.remove('show')">✕</button>
+    <h3>⚡ Quick Add Expense</h3>
+    <p style="margin-bottom:1rem">Fast expense entry</p>
+    <div class="quick-add-form">
+      <input type="text" id="quickDesc" placeholder="What did you buy?" />
+      <input type="number" id="quickAmt" placeholder="Amount (KSH)" step="0.01" />
+      <select id="quickCat">
+        <option value="Food">🍽 Food</option>
+        <option value="Transport">🚗 Transport</option>
+        <option value="Entertainment">🎬 Entertainment</option>
+        <option value="Utilities">💡 Utilities</option>
+        <option value="Healthcare">🏥 Healthcare</option>
+        <option value="Shopping">🛍 Shopping</option>
+        <option value="Education">📚 Education</option>
+        <option value="Housing">🏠 Housing</option>
+        <option value="Other">📌 Other</option>
+      </select>
+      <button class="btn btn-navy" id="quickAddSave">💾 Save</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ═══════════════════════════════════════════════════════════════════════════
@@ -642,7 +753,122 @@ function renderStats(){
   document.getElementById('statAnnualSub').textContent=y.length+' transaction'+(y.length!==1?'s':'');
   document.getElementById('statTotal').textContent=fmt(sum(all));
   document.getElementById('statTotalSub').textContent=all.length+' total entr'+(all.length!==1?'ies':'y');
+  
+  const today=new Date().toISOString().split('T')[0];
+  const todayExpenses=currentExpenses.filter(e=>e.date===today);
+  const todayTotal=sum(todayExpenses);
+  document.getElementById('todaySpending').textContent=fmt(todayTotal);
+  document.getElementById('todaySub').textContent=todayExpenses.length+' transaction'+(todayExpenses.length!==1?'s':'')+' today';
+  const biggest=todayExpenses.sort((a,b)=>b.amt-a.amt)[0];
+  document.getElementById('biggestToday').textContent=biggest?`KSH ${biggest.amt.toLocaleString()}`:'—';
+  
+  renderBudgets();
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// BUDGET MANAGEMENT
+// ═══════════════════════════════════════════════════════════════════════════
+
+let budgets=JSON.parse(localStorage.getItem('budgets')||'{}');
+
+function renderBudgets(){
+  const container=document.getElementById('budgetCards');
+  if(!container)return;
+  const thisMonth=new Date();thisMonth.setDate(1);
+  const monthlyExpenses=currentExpenses.filter(e=>new Date(e.date+'T00:00:00')>=thisMonth);
+  const categorySpending={};
+  monthlyExpenses.forEach(e=>{categorySpending[e.cat]=(categorySpending[e.cat]||0)+e.amt});
+  const categories=['Food','Transport','Entertainment','Utilities','Healthcare','Shopping','Education','Housing'];
+  if(Object.keys(budgets).length===0){
+    container.innerHTML=`<div class="budget-card" style="text-align:center;padding:2rem"><p style="color:var(--text3);margin-bottom:1rem">No budgets set yet. Set monthly limits to track your spending!</p><button class="set-budget-btn" onclick="openBudgetModal()">+ Set Your First Budget</button></div>`;
+    return;
+  }
+  container.innerHTML=categories.filter(cat=>budgets[cat]).map(cat=>{
+    const budget=budgets[cat];const spent=categorySpending[cat]||0;const remaining=budget-spent;
+    const percentage=Math.min((spent/budget)*100,100);
+    let status='safe';
+    if(percentage>=90)status='danger';else if(percentage>=70)status='warning';
+    if(percentage>=90&&percentage<100)toast(`⚠️ ${cat}: 90% of budget used!`,'err');
+    else if(percentage>=100)toast(`🚨 ${cat}: Budget exceeded!`,'err');
+    return`<div class="budget-card"><div class="budget-header"><span class="budget-category">${cat}</span><span class="budget-amount">Budget: KSH ${budget.toLocaleString()}</span></div><div class="budget-progress-bg"><div class="budget-progress-bar ${status}" style="width:${percentage}%"></div></div><div class="budget-status"><span class="budget-spent">Spent: KSH ${spent.toLocaleString()} (${percentage.toFixed(0)}%)</span><span class="budget-remaining ${remaining<0?'over':''}">${remaining>=0?`Remaining: KSH ${remaining.toLocaleString()}`:`Over by KSH ${Math.abs(remaining).toLocaleString()}!`}</span></div></div>`}).join('');
+}
+
+document.getElementById('manageBudgetsBtn').addEventListener('click',()=>{
+  const categories=['Food','Transport','Entertainment','Utilities','Healthcare','Shopping','Education','Housing'];
+  const html=`<div style="max-height:400px;overflow-y:auto">${categories.map(cat=>`<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.8rem"><label style="flex:1;font-size:.8rem;font-weight:600">${cat}</label><input type="number" id="budget-${cat}" value="${budgets[cat]||''}" placeholder="0" style="width:150px;padding:.5rem;border:1px solid var(--border);border-radius:var(--radius-sm)"/></div>`).join('')}</div><div style="display:flex;gap:.5rem;margin-top:1rem"><button class="btn btn-navy" onclick="saveBudgets()">Save Budgets</button><button class="btn btn-ghost" onclick="document.getElementById('budgetModal').classList.remove('show')">Cancel</button></div>`;
+  showCustomModal('Set Monthly Budgets',html);
+});
+
+function showCustomModal(title,content){
+  let modal=document.getElementById('budgetModal');
+  if(!modal){modal=document.createElement('div');modal.id='budgetModal';modal.className='modal-overlay';modal.innerHTML=`<div class="modal"><button class="modal-close" onclick="this.parentElement.parentElement.classList.remove('show')">✕</button><h3 id="budgetModalTitle"></h3><div id="budgetModalContent"></div></div>`;document.body.appendChild(modal)}
+  document.getElementById('budgetModalTitle').textContent=title;
+  document.getElementById('budgetModalContent').innerHTML=content;
+  modal.classList.add('show');
+}
+
+function saveBudgets(){
+  const categories=['Food','Transport','Entertainment','Utilities','Healthcare','Shopping','Education','Housing'];
+  categories.forEach(cat=>{const value=parseFloat(document.getElementById(`budget-${cat}`).value);if(value>0)budgets[cat]=value;else delete budgets[cat]});
+  localStorage.setItem('budgets',JSON.stringify(budgets));
+  document.getElementById('budgetModal').classList.remove('show');
+  renderBudgets();toast('Budgets updated!','ok');
+}
+
+function openBudgetModal(){document.getElementById('manageBudgetsBtn').click()}
+
+// Quick Add
+document.getElementById('quickAddFab').addEventListener('click',()=>{document.getElementById('quickAddModal').classList.add('show');document.getElementById('quickDesc').focus()});
+
+document.getElementById('quickAddSave').addEventListener('click',async()=>{
+  const desc=document.getElementById('quickDesc').value.trim();
+  const amt=parseFloat(document.getElementById('quickAmt').value);
+  const cat=document.getElementById('quickCat').value;
+  if(!desc)return toast('Enter description','err');
+  if(!amt||amt<=0)return toast('Enter amount','err');
+  try{
+    await db.collection('expenses').add({userId:currentUserId,desc,amt,cat,date:new Date().toISOString().split('T')[0],createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+    document.getElementById('quickAddModal').classList.remove('show');
+    document.getElementById('quickDesc').value='';
+    document.getElementById('quickAmt').value='';
+    toast('Expense added!','ok');
+  }catch(err){toast('Error','err')}
+});
+
+// Streak
+function checkStreak(){
+  const today=new Date().toISOString().split('T')[0];
+  const todayExpenses=currentExpenses.filter(e=>e.date===today);
+  let streak=parseInt(localStorage.getItem('expenseStreak')||'0');
+  const lastLogged=localStorage.getItem('lastExpenseDate');
+  if(todayExpenses.length>0&&lastLogged!==today){
+    streak++;localStorage.setItem('expenseStreak',streak);localStorage.setItem('lastExpenseDate',today);
+    if(streak===7||streak===30||streak===100)showAchievement(streak);
+  }
+  const badge=document.getElementById('streakBadge');
+  if(streak>=3)badge.innerHTML=`<div class="streak-badge">🔥 <div><span class="streak-number">${streak}</span> Day Streak!</div></div>`;
+}
+
+function showAchievement(days){
+  const popup=document.getElementById('achievementPopup');
+  let message='';
+  if(days===7)message='🎉 7-Day Streak!';
+  else if(days===30)message='🏆 30-Day Master!';
+  else if(days===100)message='💎 100-Day Legend!';
+  popup.innerHTML=`<h2>${message}</h2><p>You're building great financial habits!</p>`;
+  popup.classList.add('show');
+  setTimeout(()=>popup.classList.remove('show'),3000);
+}
+setInterval(checkStreak,5000);
+
+// Dark Mode
+document.getElementById('themeToggle').addEventListener('click',()=>{
+  document.body.classList.toggle('dark-mode');
+  const isDark=document.body.classList.contains('dark-mode');
+  document.getElementById('themeToggle').textContent=isDark?'☀️':'🌙';
+  localStorage.setItem('darkMode',isDark);
+});
+if(localStorage.getItem('darkMode')==='true'){document.body.classList.add('dark-mode');document.getElementById('themeToggle').textContent='☀️'}
 
 // ═══════════════════════════════════════════════════════════════════════════
 // EXPORT
@@ -1036,46 +1262,235 @@ function createCharts(categoryData,trendData){
       }
     }
   });
+  
+  const comparisonCtx=document.getElementById('comparisonChart').getContext('2d');
+  const now=new Date();
+  const thisMonthStart=new Date(now.getFullYear(),now.getMonth(),1);
+  const lastMonthStart=new Date(now.getFullYear(),now.getMonth()-1,1);
+  const lastMonthEnd=new Date(now.getFullYear(),now.getMonth(),0);
+  const thisMonthExpenses=currentExpenses.filter(e=>new Date(e.date+'T00:00:00')>=thisMonthStart);
+  const lastMonthExpenses=currentExpenses.filter(e=>{const d=new Date(e.date+'T00:00:00');return d>=lastMonthStart&&d<=lastMonthEnd});
+  const thisMonthByCategory={};const lastMonthByCategory={};
+  thisMonthExpenses.forEach(e=>thisMonthByCategory[e.cat]=(thisMonthByCategory[e.cat]||0)+e.amt);
+  lastMonthExpenses.forEach(e=>lastMonthByCategory[e.cat]=(lastMonthByCategory[e.cat]||0)+e.amt);
+  const allCategories=[...new Set([...Object.keys(thisMonthByCategory),...Object.keys(lastMonthByCategory)])];
+  const comparisonChart=new Chart(comparisonCtx,{type:'bar',data:{labels:allCategories,datasets:[{label:'Last Month',data:allCategories.map(cat=>lastMonthByCategory[cat]||0),backgroundColor:'rgba(148,163,184,0.6)',borderColor:'rgba(148,163,184,1)',borderWidth:1},{label:'This Month',data:allCategories.map(cat=>thisMonthByCategory[cat]||0),backgroundColor:'rgba(194,133,58,0.6)',borderColor:'rgba(194,133,58,1)',borderWidth:1}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'top'},tooltip:{callbacks:{label:ctx=>`${ctx.dataset.label}: KSH ${ctx.parsed.y.toLocaleString()}`}}},scales:{y:{beginAtZero:true,ticks:{callback:value=>'KSH '+value.toLocaleString()}}}}});
 }
 
 function generateBasicAnalysis(expenses,period,categoryData,total,avgPerTransaction,topCategory){
   const periodNames={week:'this week',month:'this month',year:'this year',all:'all time'};
   const periodName=periodNames[period]||period;
-  
-  let analysis=`📊 SPENDING OVERVIEW\n`;
-  analysis+=`You spent KSH ${total.toLocaleString()} ${periodName} across ${expenses.length} transactions. `;
-  analysis+=`Your average transaction is KSH ${avgPerTransaction.toFixed(2)}.\n\n`;
-  
-  analysis+=`📈 CATEGORY BREAKDOWN\n`;
-  analysis+=`Your top spending category is ${topCategory[0]} (KSH ${topCategory[1].toLocaleString()}, `;
-  analysis+=`${((topCategory[1]/total)*100).toFixed(1)}% of total spending).\n\n`;
-  
   const sortedCats=Object.entries(categoryData).sort((a,b)=>b[1]-a[1]);
-  analysis+=`Other significant categories:\n`;
-  sortedCats.slice(1,4).forEach(([cat,amt])=>{
-    analysis+=`• ${cat}: KSH ${amt.toLocaleString()} (${((amt/total)*100).toFixed(1)}%)\n`;
+  
+  // Calculate financial health metrics
+  const essentialCats=['Food','Housing','Utilities','Healthcare','Transport'];
+  const discretionaryCats=['Entertainment','Shopping','Other'];
+  const essentialSpend=sortedCats.filter(([cat])=>essentialCats.includes(cat)).reduce((s,[,amt])=>s+amt,0);
+  const discretionarySpend=sortedCats.filter(([cat])=>discretionaryCats.includes(cat)).reduce((s,[,amt])=>s+amt,0);
+  const essentialRatio=(essentialSpend/total)*100;
+  const discretionaryRatio=(discretionarySpend/total)*100;
+  
+  // Detect spending patterns
+  const dailyAvg=total/(period==='week'?7:period==='month'?30:period==='year'?365:expenses.length);
+  const expensesByDay={};
+  expenses.forEach(e=>{
+    const day=new Date(e.date+'T00:00:00').toLocaleDateString('en-GB',{weekday:'long'});
+    expensesByDay[day]=(expensesByDay[day]||0)+1;
+  });
+  const busiestDay=Object.entries(expensesByDay).sort((a,b)=>b[1]-a[1])[0];
+  
+  // Detect large transactions
+  const largeTransactions=expenses.filter(e=>e.amt>avgPerTransaction*2).length;
+  const largeTransactionRatio=(largeTransactions/expenses.length)*100;
+  
+  // Calculate monthly burn rate
+  let monthlyBurnRate=0;
+  if(period==='week')monthlyBurnRate=total*4.33;
+  else if(period==='month')monthlyBurnRate=total;
+  else if(period==='year')monthlyBurnRate=total/12;
+  else monthlyBurnRate=(total/expenses.length)*30;
+  
+  // Financial health score (0-100)
+  let healthScore=100;
+  if(essentialRatio>70)healthScore-=20;
+  if(discretionaryRatio>30)healthScore-=15;
+  if(topCategory[1]/total>0.4)healthScore-=15;
+  if(largeTransactionRatio>20)healthScore-=10;
+  healthScore=Math.max(0,Math.min(100,healthScore));
+  
+  // Generate comprehensive analysis
+  let analysis=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`📊 FINANCIAL OVERVIEW - ${periodName.toUpperCase()}\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  analysis+=`💰 Total Spending: KSH ${total.toLocaleString('en',{minimumFractionDigits:2})}\n`;
+  analysis+=`📝 Transactions: ${expenses.length} entries\n`;
+  analysis+=`📈 Average/Transaction: KSH ${avgPerTransaction.toLocaleString('en',{minimumFractionDigits:2})}\n`;
+  analysis+=`📅 Daily Average: KSH ${dailyAvg.toLocaleString('en',{minimumFractionDigits:2})}\n`;
+  analysis+=`🔥 Monthly Burn Rate: KSH ${monthlyBurnRate.toLocaleString('en',{minimumFractionDigits:0})}\n\n`;
+  
+  // Financial Health Score
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`🏥 FINANCIAL HEALTH SCORE: ${healthScore}/100\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  if(healthScore>=80)analysis+=`✅ Excellent! You're managing your finances very well.\n\n`;
+  else if(healthScore>=60)analysis+=`👍 Good! Minor improvements could optimize your spending.\n\n`;
+  else if(healthScore>=40)analysis+=`⚠️ Fair. Consider reviewing your spending habits.\n\n`;
+  else analysis+=`🚨 Attention needed! Significant improvements recommended.\n\n`;
+  
+  // Spending Distribution
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`📊 SPENDING DISTRIBUTION ANALYSIS\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  analysis+=`🏠 Essential Expenses: ${essentialRatio.toFixed(1)}% (KSH ${essentialSpend.toLocaleString()})\n`;
+  analysis+=`   ├─ Recommended: 50-70%\n`;
+  if(essentialRatio>70)analysis+=`   └─ ⚠️ Too high - look for savings in essentials\n\n`;
+  else if(essentialRatio<50)analysis+=`   └─ ✅ Excellent control on essential spending\n\n`;
+  else analysis+=`   └─ ✅ Well balanced\n\n`;
+  
+  analysis+=`🎉 Discretionary Spending: ${discretionaryRatio.toFixed(1)}% (KSH ${discretionarySpend.toLocaleString()})\n`;
+  analysis+=`   ├─ Recommended: 20-30%\n`;
+  if(discretionaryRatio>30)analysis+=`   └─ ⚠️ Consider reducing non-essential spending\n\n`;
+  else if(discretionaryRatio<20)analysis+=`   └─ ✅ Very disciplined - you can afford occasional treats!\n\n`;
+  else analysis+=`   └─ ✅ Balanced lifestyle spending\n\n`;
+  
+  // Category Deep Dive
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`📈 TOP SPENDING CATEGORIES\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  sortedCats.slice(0,5).forEach(([cat,amt],idx)=>{
+    const pct=((amt/total)*100).toFixed(1);
+    const icon=['🥇','🥈','🥉','4️⃣','5️⃣'][idx];
+    analysis+=`${icon} ${cat}: KSH ${amt.toLocaleString()} (${pct}%)\n`;
+    
+    // Category-specific insights
+    if(cat==='Food'&&amt/total>0.3)analysis+=`   └─ 💡 Food is ${pct}% of spending. Meal planning could save KSH ${(amt*0.15).toFixed(0)}/month\n`;
+    if(cat==='Transport'&&amt/total>0.25)analysis+=`   └─ 💡 High transport costs. Consider carpooling or public transit\n`;
+    if(cat==='Entertainment'&&amt/total>0.15)analysis+=`   └─ 💡 Entertainment is significant. Look for free/low-cost alternatives\n`;
+    if(cat==='Shopping'&&amt/total>0.2)analysis+=`   └─ 💡 Shopping expenses high. Implement 24-hour rule before purchases\n`;
+    if(cat==='Utilities'&&amt/total>0.15)analysis+=`   └─ 💡 Utilities seem high. Energy-saving measures could help\n`;
+  });
+  analysis+=`\n`;
+  
+  // Spending Patterns
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`🔍 SPENDING PATTERN ANALYSIS\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  if(busiestDay)analysis+=`📅 Busiest Spending Day: ${busiestDay[0]} (${busiestDay[1]} transactions)\n`;
+  analysis+=`💳 Large Transactions: ${largeTransactions} (${largeTransactionRatio.toFixed(1)}% of total)\n`;
+  if(largeTransactionRatio>20)analysis+=`   └─ ⚠️ Many large purchases - plan big expenses in advance\n\n`;
+  else analysis+=`   └─ ✅ Good mix of small and large transactions\n\n`;
+  
+  // AI Recommendations
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`🤖 AI-POWERED RECOMMENDATIONS\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  let recNum=1;
+  
+  // Top category recommendation
+  if(topCategory[1]/total>0.35){
+    analysis+=`${recNum}. 🎯 PRIORITY: Reduce ${topCategory[0]} spending\n`;
+    analysis+=`   ├─ Current: KSH ${topCategory[1].toLocaleString()} (${((topCategory[1]/total)*100).toFixed(0)}%)\n`;
+    analysis+=`   ├─ Target: Reduce by 15%\n`;
+    analysis+=`   ├─ Savings: KSH ${(topCategory[1]*0.15).toFixed(0)}/month\n`;
+    analysis+=`   └─ Action: Track every ${topCategory[0]} expense for 2 weeks\n\n`;
+    recNum++;
+  }
+  
+  // Second category recommendation
+  if(sortedCats[1]&&sortedCats[1][1]/total>0.2){
+    analysis+=`${recNum}. 📉 Optimize ${sortedCats[1][0]} expenses\n`;
+    analysis+=`   ├─ Current: KSH ${sortedCats[1][1].toLocaleString()}\n`;
+    analysis+=`   ├─ Potential Savings: KSH ${(sortedCats[1][1]*0.12).toFixed(0)}/month (12% reduction)\n`;
+    analysis+=`   └─ Action: Compare prices, find alternatives, negotiate better rates\n\n`;
+    recNum++;
+  }
+  
+  // Small purchase tracking
+  const smallPurchases=expenses.filter(e=>e.amt<avgPerTransaction*0.5).length;
+  if(smallPurchases>expenses.length*0.4){
+    analysis+=`${recNum}. 🔬 Track small purchases carefully\n`;
+    analysis+=`   ├─ ${smallPurchases} small transactions detected\n`;
+    analysis+=`   ├─ These add up to significant amounts\n`;
+    analysis+=`   └─ Action: Review all purchases under KSH ${(avgPerTransaction*0.5).toFixed(0)}\n\n`;
+    recNum++;
+  }
+  
+  // Budget recommendation
+  analysis+=`${recNum}. 💼 Set category budgets\n`;
+  analysis+=`   ├─ ${topCategory[0]}: KSH ${(topCategory[1]*0.9).toFixed(0)}/month\n`;
+  if(sortedCats[1])analysis+=`   ├─ ${sortedCats[1][0]}: KSH ${(sortedCats[1][1]*0.95).toFixed(0)}/month\n`;
+  if(sortedCats[2])analysis+=`   ├─ ${sortedCats[2][0]}: KSH ${(sortedCats[2][1]*0.95).toFixed(0)}/month\n`;
+  analysis+=`   └─ Action: Set alerts when approaching limits\n\n`;
+  recNum++;
+  
+  // Emergency fund recommendation
+  if(discretionarySpend>essentialSpend*0.3){
+    analysis+=`${recNum}. 🏦 Build emergency savings\n`;
+    analysis+=`   ├─ Redirect KSH ${(discretionarySpend*0.2).toFixed(0)}/month from discretionary to savings\n`;
+    analysis+=`   ├─ Annual savings potential: KSH ${(discretionarySpend*0.2*12).toFixed(0)}\n`;
+    analysis+=`   └─ Action: Set up automatic transfer to savings account\n\n`;
+    recNum++;
+  }
+  
+  // Future Predictions
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`🔮 SPENDING FORECAST\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  const nextMonthProjection=monthlyBurnRate;
+  const threeMonthProjection=monthlyBurnRate*3;
+  const yearProjection=monthlyBurnRate*12;
+  
+  analysis+=`📅 Next Month Projection: KSH ${nextMonthProjection.toLocaleString('en',{minimumFractionDigits:0})}\n`;
+  analysis+=`📅 3-Month Projection: KSH ${threeMonthProjection.toLocaleString('en',{minimumFractionDigits:0})}\n`;
+  analysis+=`📅 Annual Projection: KSH ${yearProjection.toLocaleString('en',{minimumFractionDigits:0})}\n\n`;
+  
+  // Savings Opportunities
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`💰 SAVINGS OPPORTUNITIES\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  
+  const savingsPotential=[
+    {action:`Reduce ${topCategory[0]} by 15%`,monthly:topCategory[1]*0.15,annual:topCategory[1]*0.15*12},
+    {action:'Cut discretionary spending by 10%',monthly:discretionarySpend*0.1,annual:discretionarySpend*0.1*12},
+    {action:'Eliminate unnecessary subscriptions',monthly:avgPerTransaction*2,annual:avgPerTransaction*2*12},
+    {action:'Cook at home 2 extra days/week',monthly:categoryData.Food?categoryData.Food*0.1:0,annual:categoryData.Food?categoryData.Food*0.1*12:0}
+  ].filter(s=>s.monthly>0).sort((a,b)=>b.monthly-a.monthly);
+  
+  savingsPotential.forEach((s,i)=>{
+    analysis+=`${i+1}. ${s.action}\n`;
+    analysis+=`   ├─ Monthly: KSH ${s.monthly.toFixed(0)}\n`;
+    analysis+=`   └─ Annual: KSH ${s.annual.toFixed(0)}\n\n`;
   });
   
-  analysis+=`\n💡 SMART RECOMMENDATIONS\n`;
-  analysis+=`1. Set a budget limit for ${topCategory[0]} - it's consuming ${((topCategory[1]/total)*100).toFixed(0)}% of your spending\n`;
-  if(sortedCats[1])analysis+=`2. Consider reducing ${sortedCats[1][0]} expenses by 10% to save KSH ${(sortedCats[1][1]*0.1).toFixed(0)} monthly\n`;
-  analysis+=`3. Track small daily purchases - they can add up to significant amounts\n`;
-  if(sortedCats[2])analysis+=`4. Review subscriptions and recurring expenses in ${sortedCats[2][0]}\n\n`;
+  const totalMonthlySavings=savingsPotential.reduce((s,o)=>s+o.monthly,0);
+  const totalAnnualSavings=savingsPotential.reduce((s,o)=>s+o.annual,0);
   
-  analysis+=`🔮 SPENDING PREDICTION\n`;
-  let projectedNext=0;
-  if(period==='week')projectedNext=total*4.33;
-  else if(period==='month')projectedNext=total;
-  else if(period==='year')projectedNext=total/12;
-  else projectedNext=total/(expenses.length/30);
+  analysis+=`🎯 TOTAL POTENTIAL SAVINGS:\n`;
+  analysis+=`   ├─ Monthly: KSH ${totalMonthlySavings.toFixed(0)}\n`;
+  analysis+=`   └─ Annual: KSH ${totalAnnualSavings.toFixed(0)}\n\n`;
   
-  analysis+=`Based on your current spending patterns, you're projected to spend approximately KSH ${projectedNext.toFixed(0)} next month.\n\n`;
+  // Final motivation
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  analysis+=`✨ FINAL THOUGHTS\n`;
+  analysis+=`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   
-  analysis+=`💰 SAVINGS OPPORTUNITIES\n`;
-  const potentialSavings=topCategory[1]*0.15;
-  analysis+=`• Reduce ${topCategory[0]} by 15%: Save KSH ${potentialSavings.toFixed(0)}/month\n`;
-  analysis+=`• Cut unnecessary expenses: Potential KSH ${(total*0.08).toFixed(0)}/month\n`;
-  analysis+=`• Use budgeting apps: Track and save 10-20% more efficiently\n`;
+  if(healthScore>=80){
+    analysis+=`Excellent financial discipline! Keep tracking your expenses and\n`;
+    analysis+=`look for small optimizations. You're on the path to financial freedom! 🚀\n`;
+  }else if(healthScore>=60){
+    analysis+=`You're doing well! Implementing 2-3 recommendations above could\n`;
+    analysis+=`significantly improve your financial health. Small changes = Big results! 💪\n`;
+  }else{
+    analysis+=`Don't worry - awareness is the first step! Start with one category,\n`;
+    analysis+=`implement the top recommendation, and track your progress weekly. You got this! 🎯\n`;
+  }
   
   return analysis;
 }
